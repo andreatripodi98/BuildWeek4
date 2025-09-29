@@ -20,6 +20,13 @@ public class Utente {
     @JoinColumn
     private Tessera tessera;
 
+
+    public Utente( TipoUtente tipoUtente, Tessera tessera) {
+       
+        this.tipoUtente = tipoUtente;
+        this.tessera = tessera;
+    }
+
     public UUID getIdUtente() {
         return idUtente;
     }

@@ -8,5 +8,24 @@ public class Application {
 private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("bw4pu");
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
+
+
+
+
+
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

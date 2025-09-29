@@ -21,6 +21,12 @@ private LocalDate dataEmissione;
 private LocalDate dataScadenza;
 
 
+    public Tessera( LocalDate dataEmissione, LocalDate dataScadenza) {
+
+        this.dataEmissione = dataEmissione;
+        this.dataScadenza = dataScadenza;
+    }
+
     public UUID getIdTessera() {
         return idTessera;
     }
