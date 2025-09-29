@@ -1,4 +1,4 @@
 package andreapia.enums;
 
-public class Test1 {
+public enum Capienza {
 }
