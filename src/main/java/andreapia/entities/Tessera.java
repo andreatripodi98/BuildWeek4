@@ -11,18 +11,18 @@ import java.util.UUID;
 @Entity
 
 public class Tessera {
-@Id
-@GeneratedValue
-@Column(name = "id_tessera")
-private UUID idTessera;
-@Column(name = "data_emissione")
-private LocalDate dataEmissione;
-@Column(name = "data_scadenza")
-private LocalDate dataScadenza;
+    @Id
+    @GeneratedValue
+    @Column(name = "id_tessera")
+    private UUID idTessera;
+    @Column(name = "data_emissione")
+    private LocalDate dataEmissione;
+    @Column(name = "data_scadenza")
+    private LocalDate dataScadenza;
 
 
-    public Tessera( LocalDate dataEmissione, LocalDate dataScadenza) {
-
+    public Tessera(UUID idTessera, LocalDate dataEmissione, LocalDate dataScadenza) {
+        this.idTessera = idTessera;
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataScadenza;
     }
@@ -30,7 +30,6 @@ private LocalDate dataScadenza;
     public UUID getIdTessera() {
         return idTessera;
     }
-
 
 
     public LocalDate getDataEmissione() {
