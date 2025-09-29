@@ -1,5 +1,6 @@
 package andreapia.entities;
 
+import andreapia.enums.TipoUtente;
 import jakarta.persistence.*;
 
 import java.util.UUID;
