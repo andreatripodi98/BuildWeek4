@@ -26,14 +26,14 @@ public class Mezzi {
     @OneToMany(mappedBy = "mezzi")
     private List<Tratta> tratte = new ArrayList<>();
     private int numero_tratte_effettuate;
-    @ManyToMany
-    private UUID biglietti_vidimati;
+    @OneToMany (mappedBy = "mezzi")
+    private List<BigliettiVidimati> biglietti_vidimati= new ArrayList<>();
     @OneToOne(mappedBy = "id_mezzo")
     private Corsa corsa;
     //COSTRUTTORI
     public Mezzi (){} //COSTRUTTORE VUOTO
 
-    public Mezzi( StatoMezzo stato, LocalDate data_inizio_manutenzione, LocalDate data_fine_manutenzione, Capienza capienza, TipoMezzo tipo_mezzo, List<Tratta> id_tratta, int numero_tratte_effettuate, UUID biglietti_vidimati) {
+    public Mezzi( StatoMezzo stato, LocalDate data_inizio_manutenzione, LocalDate data_fine_manutenzione, Capienza capienza, TipoMezzo tipo_mezzo, List<Tratta> id_tratta, int numero_tratte_effettuate, List<BigliettiVidimati> biglietti_vidimati) {
         this.stato = stato;
         this.data_inizio_manutenzione = data_inizio_manutenzione;
         this.data_fine_manutenzione = data_fine_manutenzione;
@@ -106,11 +106,11 @@ public class Mezzi {
         this.numero_tratte_effettuate = numero_tratte_effettuate;
     }
 
-    public UUID getBiglietti_vidimati() {
+    public List<BigliettiVidimati> getBiglietti_vidimati() {
         return biglietti_vidimati;
     }
 
-    public void setBiglietti_vidimati(UUID biglietti_vidimati) {
+    public void setBiglietti_vidimati(List<BigliettiVidimati> biglietti_vidimati) {
         this.biglietti_vidimati = biglietti_vidimati;
     }
 
