@@ -10,7 +10,7 @@ public class Tratta {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private UUID id_tratta;
 
     @Column(name = "zona_di_partenza", nullable = false)
     private String zona_di_partenza;
@@ -21,39 +21,38 @@ public class Tratta {
     @Column(name = "tempo_previsto_di_percorrenza", nullable = false)
     private double tempo_previsto_di_percorrenza;
 
-    public Tratta (){
+    public Tratta() {
 
     }
 
-    public Tratta(UUID id, String zona_di_partenza, String capolinea, double tempo_previsto_di_percorrenza) {
-        this.id = id;
+    public Tratta(String zona_di_partenza, String capolinea, double tempo_previsto_di_percorrenza) {
         this.zona_di_partenza = zona_di_partenza;
         this.capolinea = capolinea;
         this.tempo_previsto_di_percorrenza = tempo_previsto_di_percorrenza;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getId_tratta() {
+        return id_tratta;
     }
 
     public String getZona_di_partenza() {
         return zona_di_partenza;
     }
 
-    public String getCapolinea() {
-        return capolinea;
-    }
-
-    public double getTempo_previsto_di_percorrenza() {
-        return tempo_previsto_di_percorrenza;
-    }
-
     public void setZona_di_partenza(String zona_di_partenza) {
         this.zona_di_partenza = zona_di_partenza;
     }
 
+    public String getCapolinea() {
+        return capolinea;
+    }
+
     public void setCapolinea(String capolinea) {
         this.capolinea = capolinea;
+    }
+
+    public double getTempo_previsto_di_percorrenza() {
+        return tempo_previsto_di_percorrenza;
     }
 
     public void setTempo_previsto_di_percorrenza(double tempo_previsto_di_percorrenza) {
@@ -63,7 +62,7 @@ public class Tratta {
     @Override
     public String toString() {
         return "Tratta{" +
-                "id=" + id +
+                "id_tratta=" + id_tratta +
                 ", zona_di_partenza='" + zona_di_partenza + '\'' +
                 ", capolinea='" + capolinea + '\'' +
                 ", tempo_previsto_di_percorrenza=" + tempo_previsto_di_percorrenza +

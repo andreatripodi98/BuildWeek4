@@ -20,9 +20,13 @@ public abstract class Ticket {
     @Column(name = "tipo_venditore", nullable = false)
     private TipoRivenditore tipoRivenditore;
 
-    // Punta a RIVENDITORE o DISTRIBUTORE a seconda di tipo_venditore
-    @Column(name = "id_venditore", nullable = false)
-    private UUID idVenditore;
+    @ManyToOne
+    @JoinColumn (name="id_rivenditore")
+    private Rivenditore idRivenditore;
+
+    @ManyToOne
+    @JoinColumn (name="id_distributore")
+    private Distributore idDistributore;
 
     @Column(name = "data_emissione", nullable = false)
     private LocalDate dataEmissione;
@@ -44,15 +48,10 @@ public abstract class Ticket {
 
     protected Ticket() {}
 
-    public Ticket(TipoRivenditore tipoRivenditore,
-                  UUID idVenditore,
-                  LocalDate dataEmissione,
-                  LocalDate dataScadenza,
-                  TipoTicket tipoTicket,
-                  UUID tipoTicketId,
-                  Utente utente) {
+    public Ticket(TipoRivenditore tipoRivenditore, Rivenditore idRivenditore, Distributore idDistributore, LocalDate dataEmissione, LocalDate dataScadenza, TipoTicket tipoTicket, UUID tipoTicketId, Utente utente) {
         this.tipoRivenditore = tipoRivenditore;
-        this.idVenditore = idVenditore;
+        this.idRivenditore = idRivenditore;
+        this.idDistributore = idDistributore;
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataScadenza;
         this.tipoTicket = tipoTicket;
@@ -60,19 +59,71 @@ public abstract class Ticket {
         this.utente = utente;
     }
 
-    public UUID getId() { return id; }
-    public TipoRivenditore getTipoRivenditore() { return tipoRivenditore; }
-    public void setTipoRivenditore(TipoRivenditore tipoRivenditore) { this.tipoRivenditore = tipoRivenditore; }
-    public UUID getIdVenditore() { return idVenditore; }
-    public void setIdVenditore(UUID idVenditore) { this.idVenditore = idVenditore; }
-    public LocalDate getDataEmissione() { return dataEmissione; }
-    public void setDataEmissione(LocalDate dataEmissione) { this.dataEmissione = dataEmissione; }
-    public LocalDate getDataScadenza() { return dataScadenza; }
-    public void setDataScadenza(LocalDate dataScadenza) { this.dataScadenza = dataScadenza; }
-    public TipoTicket getTipoTicket() { return tipoTicket; }
-    public void setTipoTicket(TipoTicket tipoTicket) { this.tipoTicket = tipoTicket; }
-    public UUID getTipoTicketId() { return tipoTicketId; }
-    public void setTipoTicketId(UUID tipoTicketId) { this.tipoTicketId = tipoTicketId; }
-    public Utente getUtente() { return utente; }
-    public void setUtente(Utente utente) { this.utente = utente; }
+    public UUID getId() {
+        return id;
+    }
+
+    public Rivenditore getIdRivenditore() {
+        return idRivenditore;
+    }
+
+    public void setIdRivenditore(Rivenditore idRivenditore) {
+        this.idRivenditore = idRivenditore;
+    }
+
+    public TipoRivenditore getTipoRivenditore() {
+        return tipoRivenditore;
+    }
+
+    public void setTipoRivenditore(TipoRivenditore tipoRivenditore) {
+        this.tipoRivenditore = tipoRivenditore;
+    }
+
+    public Distributore getIdDistributore() {
+        return idDistributore;
+    }
+
+    public void setIdDistributore(Distributore idDistributore) {
+        this.idDistributore = idDistributore;
+    }
+
+    public LocalDate getDataEmissione() {
+        return dataEmissione;
+    }
+
+    public void setDataEmissione(LocalDate dataEmissione) {
+        this.dataEmissione = dataEmissione;
+    }
+
+    public LocalDate getDataScadenza() {
+        return dataScadenza;
+    }
+
+    public void setDataScadenza(LocalDate dataScadenza) {
+        this.dataScadenza = dataScadenza;
+    }
+
+    public TipoTicket getTipoTicket() {
+        return tipoTicket;
+    }
+
+    public void setTipoTicket(TipoTicket tipoTicket) {
+        this.tipoTicket = tipoTicket;
+    }
+
+    public UUID getTipoTicketId() {
+        return tipoTicketId;
+    }
+
+    public void setTipoTicketId(UUID tipoTicketId) {
+        this.tipoTicketId = tipoTicketId;
+    }
+
+    public Utente getUtente() {
+        return utente;
+    }
+
+    public void setUtente(Utente utente) {
+        this.utente = utente;
+    }
 }

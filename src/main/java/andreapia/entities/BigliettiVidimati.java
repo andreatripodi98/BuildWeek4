@@ -20,8 +20,9 @@ public class BigliettiVidimati {
     @Column(name = "id_biglietto", nullable = false)
     private UUID id_biglietto;
 
-    @Column(name = "id_mezzo", nullable = false)
-    private UUID id_mezzo;
+    @ManyToOne
+    @JoinColumn(name = "id_mezzi")
+    private Mezzi id_mezzo;
 
     @Column(name = "data_vidimazione", nullable = false)
     private LocalDate data_vidimazione;
@@ -29,7 +30,7 @@ public class BigliettiVidimati {
     public BigliettiVidimati(){
     }
 
-    public BigliettiVidimati(UUID id, boolean stato, UUID id_biglietto, UUID id_mezzo, LocalDate data_vidimazione) {
+    public BigliettiVidimati(UUID id, boolean stato, UUID id_biglietto, Mezzi id_mezzo, LocalDate data_vidimazione) {
         this.id = id;
         this.stato = stato;
         this.id_biglietto = id_biglietto;
@@ -49,7 +50,7 @@ public class BigliettiVidimati {
         return id_biglietto;
     }
 
-    public UUID getId_mezzo() {
+    public Mezzi getId_mezzo() {
         return id_mezzo;
     }
 
@@ -65,7 +66,7 @@ public class BigliettiVidimati {
         this.id_biglietto = id_biglietto;
     }
 
-    public void setId_mezzo(UUID id_mezzo) {
+    public void setId_mezzo(Mezzi id_mezzo) {
         this.id_mezzo = id_mezzo;
     }
 

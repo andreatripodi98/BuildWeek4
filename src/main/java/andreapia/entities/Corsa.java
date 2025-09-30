@@ -16,8 +16,9 @@ public class Corsa {
     @Column(name = "id_mezzo", nullable = false)
     private UUID id_mezzo;
 
-    @Column(name = "id_tratta", nullable = false)
-    private UUID id_tratta;
+    @ManyToOne
+    @JoinColumn (name="id_tratta")
+    private Tratta id_tratta;
 
     @Column(name = "inizio_corsa", nullable = false)
     private LocalDate inizio_corsa;
@@ -31,7 +32,7 @@ public Corsa (){
 
 }
 
-    public Corsa(UUID id, UUID id_mezzo, UUID id_tratta, LocalDate inizio_corsa, LocalDate fine_corsa) {
+    public Corsa(UUID id, UUID id_mezzo, Tratta id_tratta, LocalDate inizio_corsa, LocalDate fine_corsa) {
         this.id = id;
         this.id_mezzo = id_mezzo;
         this.id_tratta = id_tratta;
@@ -47,7 +48,7 @@ public Corsa (){
         return id_mezzo;
     }
 
-    public UUID getId_tratta() {
+    public Tratta getId_tratta() {
         return id_tratta;
     }
 
@@ -63,7 +64,7 @@ public Corsa (){
         this.id_mezzo = id_mezzo;
     }
 
-    public void setId_tratta(UUID id_tratta) {
+    public void setId_tratta(Tratta id_tratta) {
         this.id_tratta = id_tratta;
     }
 

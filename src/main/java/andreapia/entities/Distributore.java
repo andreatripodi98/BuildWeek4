@@ -11,7 +11,7 @@ public class Distributore {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private UUID id_distributore;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "stato", nullable = false)
@@ -23,7 +23,7 @@ public class Distributore {
         this.stato = stato;
     }
 
-    public UUID getId() { return id; }
+    public UUID getId() { return id_distributore; }
     public StatoDistributore getStato() { return stato; }
     public void setStato(StatoDistributore stato) { this.stato = stato; }
 }

@@ -12,21 +12,17 @@ import java.util.UUID;
 @PrimaryKeyJoinColumn(name = "id")
 public class Biglietti extends Ticket {
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "stato", nullable = false)
     private boolean stato;
 
     protected Biglietti() {}
 
-    public Biglietti(TipoRivenditore tipoRivenditore,
-                     UUID idVenditore,
-                     LocalDate dataEmissione,
-                     LocalDate dataScadenza,
-                     TipoTicket tipoTicket,
-                     UUID tipoTicketId,
-                     Utente utente,
-                     boolean stato) {
-        super(tipoRivenditore, idVenditore, dataEmissione, dataScadenza, tipoTicket, tipoTicketId, utente);
+    public Biglietti(boolean stato) {
+        this.stato = stato;
+    }
+
+    public Biglietti(TipoRivenditore tipoRivenditore, Rivenditore idRivenditore, Distributore idDistributore, LocalDate dataEmissione, LocalDate dataScadenza, TipoTicket tipoTicket, UUID tipoTicketId, Utente utente, boolean stato) {
+        super(tipoRivenditore, idRivenditore, idDistributore, dataEmissione, dataScadenza, tipoTicket, tipoTicketId, utente);
         this.stato = stato;
     }
 

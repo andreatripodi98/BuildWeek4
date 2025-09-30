@@ -9,9 +9,9 @@ public class Rivenditore {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private UUID id_rivenditore;
 
     protected Rivenditore() {}
 
-    public UUID getId() { return id; }
+    public UUID getId() { return id_rivenditore; }
 }

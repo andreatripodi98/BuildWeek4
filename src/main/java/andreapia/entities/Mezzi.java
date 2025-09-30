@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Mezzi {
     @Id
     @GeneratedValue
-    private UUID id;
+    private UUID id_mezzi;
 
     @Enumerated(EnumType.STRING)
     private StatoMezzo stato;
@@ -52,7 +52,7 @@ public class Mezzi {
 
 
     public UUID getId() {
-        return id;
+        return id_mezzi;
     }
 
     public StatoMezzo getStato() {
@@ -115,14 +115,14 @@ public class Mezzi {
     @Override
     public String toString() {
         return "Mezzi{" +
-                "id=" + id +
+                "id=" + id_mezzi +
                 ", stato=" + stato +
                 ", data_inizio_manutenzione=" + data_inizio_manutenzione +
                 ", data_fine_manutenzione=" + data_fine_manutenzione +
                 ", capienza=" + capienza +
                 ", tipoMezzo=" + tipoMezzo +
                 ", contoBigliettiVidimati=" + contoBigliettiVidimati +
-                ", tratta=" + (tratta != null ? tratta.getId() : "null") +
+                ", tratta=" + (tratta != null ? tratta.getId_tratta() : "null") +
                 '}';
     }
 }

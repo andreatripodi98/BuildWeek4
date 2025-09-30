@@ -19,15 +19,8 @@ public class Abbonamenti extends Ticket {
 
     protected Abbonamenti() {}
 
-    public Abbonamenti(TipoRivenditore tipoRivenditore,
-                       UUID idVenditore,
-                       LocalDate dataEmissione,
-                       LocalDate dataScadenza,
-                       TipoTicket tipoTicket,
-                       UUID tipoTicketId,
-                       Utente utente,
-                       TipoAbbonamento tipoAbbonamento) {
-        super(tipoRivenditore, idVenditore, dataEmissione, dataScadenza, tipoTicket, tipoTicketId, utente);
+    public Abbonamenti(TipoRivenditore tipoRivenditore, Rivenditore idRivenditore, Distributore idDistributore, LocalDate dataEmissione, LocalDate dataScadenza, TipoTicket tipoTicket, UUID tipoTicketId, Utente utente, TipoAbbonamento tipoAbbonamento) {
+        super(tipoRivenditore, idRivenditore, idDistributore, dataEmissione, dataScadenza, tipoTicket, tipoTicketId, utente);
         this.tipoAbbonamento = tipoAbbonamento;
     }
 
