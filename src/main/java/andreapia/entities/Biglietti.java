@@ -1,6 +1,5 @@
 package andreapia.entities;
 
-import andreapia.enums.StatoBiglietto;
 import andreapia.enums.TipoRivenditore;
 import andreapia.enums.TipoTicket;
 import jakarta.persistence.*;
@@ -15,7 +14,7 @@ public class Biglietti extends Ticket {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "stato", nullable = false)
-    private StatoBiglietto stato;
+    private boolean stato;
 
     protected Biglietti() {}
 
@@ -26,12 +25,17 @@ public class Biglietti extends Ticket {
                      TipoTicket tipoTicket,
                      UUID tipoTicketId,
                      Utente utente,
-                     StatoBiglietto stato) {
+                     boolean stato) {
         super(tipoRivenditore, idVenditore, dataEmissione, dataScadenza, tipoTicket, tipoTicketId, utente);
         this.stato = stato;
     }
 
-    public StatoBiglietto getStato() { return stato; }
-    public void setStato(StatoBiglietto stato) { this.stato = stato; }
+    public boolean isStato() {
+        return stato;
+    }
+
+    public void setStato(boolean stato) {
+        this.stato = stato;
+    }
 }
 
