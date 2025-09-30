@@ -21,6 +21,10 @@ public class Utente {
     private String cognomeUtente;
 
 
+    public Utente() {
+
+    }
+
     public Utente(TipoUtente tipoUtente, String nomeUtente, String cognomeUtente) {
         this.tipoUtente = tipoUtente;
         this.nomeUtente = nomeUtente;
@@ -53,5 +57,15 @@ public class Utente {
 
     public void setCognomeUtente(String cognomeUtente) {
         this.cognomeUtente = cognomeUtente;
+    }
+
+    @Override
+    public String toString() {
+        return "Utente{" +
+                "idUtente=" + idUtente +
+                ", tipoUtente=" + tipoUtente +
+                ", nomeUtente='" + nomeUtente + '\'' +
+                ", cognomeUtente='" + cognomeUtente + '\'' +
+                '}';
     }
 }
