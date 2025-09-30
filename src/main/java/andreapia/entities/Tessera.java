@@ -25,6 +25,10 @@ public class Tessera {
     @JoinColumn(name = "id_abbonamenti")
     private Abbonamenti abbonamenti;
 
+    public Tessera(){
+        
+    }
+
     public Tessera(LocalDate dataEmissione, LocalDate dataScadenza, Utente utente, Abbonamenti abbonamenti) {
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataScadenza;
