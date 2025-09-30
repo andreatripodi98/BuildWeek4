@@ -33,9 +33,8 @@ public class Mezzi {
     private Long contoBigliettiVidimati;
 
     @OneToOne
-    @JoinColumn(name = "id_tratta", referencedColumnName = "id")
+    @JoinColumn(name = "id_tratta")
     private Tratta tratta;
-
 
     public Mezzi() {
     }
