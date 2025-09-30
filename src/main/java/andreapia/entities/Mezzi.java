@@ -6,48 +6,47 @@ import andreapia.enums.TipoMezzo;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-
 
 @Entity
 @Table(name = "mezzi")
+
 public class Mezzi {
-    //ATTRIBUTI
     @Id
     @GeneratedValue
-    private UUID id;
-    private StatoMezzo stato;
-    private LocalDate data_inizio_manutenzione;
-    private LocalDate data_fine_manutenzione;
-    private Capienza capienza;
-    private TipoMezzo tipo_mezzo;
-    @OneToMany(mappedBy = "mezzi")
-    private List<Tratta> tratte = new ArrayList<>();
-    private int numero_tratte_effettuate;
-    @OneToMany (mappedBy = "mezzi")
-    private List<BigliettiVidimati> biglietti_vidimati= new ArrayList<>();
-    @OneToOne(mappedBy = "id_mezzo")
-    private Corsa corsa;
-    //COSTRUTTORI
-    public Mezzi (){} //COSTRUTTORE VUOTO
+    private UUID id_mezzi;
 
-    public Mezzi( StatoMezzo stato, LocalDate data_inizio_manutenzione, LocalDate data_fine_manutenzione, Capienza capienza, TipoMezzo tipo_mezzo, List<Tratta> id_tratta, int numero_tratte_effettuate, List<BigliettiVidimati> biglietti_vidimati) {
+    @Enumerated(EnumType.STRING)
+    private StatoMezzo stato;
+
+    @Enumerated(EnumType.STRING)
+    private Capienza capienza;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_mezzo")
+    private TipoMezzo tipoMezzo;
+
+    @Column(name = "conto_biglietti_vidimati")
+    private Long contoBigliettiVidimati;
+
+    @OneToOne
+    @JoinColumn(name = "id_tratta")
+    private Tratta tratta;
+
+    public Mezzi() {
+    }
+
+    public Mezzi(StatoMezzo stato, Capienza capienza, TipoMezzo tipoMezzo, Long contoBigliettiVidimati, Tratta tratta) {
         this.stato = stato;
-        this.data_inizio_manutenzione = data_inizio_manutenzione;
-        this.data_fine_manutenzione = data_fine_manutenzione;
         this.capienza = capienza;
-        this.tipo_mezzo = tipo_mezzo;
-        this.tratte = id_tratta;
-        this.numero_tratte_effettuate = numero_tratte_effettuate;
-        this.biglietti_vidimati = biglietti_vidimati;
+        this.tipoMezzo = tipoMezzo;
+        this.contoBigliettiVidimati = contoBigliettiVidimati;
+        this.tratta = tratta;
     }
 
 
-    //METODI
     public UUID getId() {
-        return id;
+        return id_mezzi;
     }
 
     public StatoMezzo getStato() {
@@ -58,22 +57,6 @@ public class Mezzi {
         this.stato = stato;
     }
 
-    public LocalDate getData_inizio_manutenzione() {
-        return data_inizio_manutenzione;
-    }
-
-    public void setData_inizio_manutenzione(LocalDate data_inizio_manutenzione) {
-        this.data_inizio_manutenzione = data_inizio_manutenzione;
-    }
-
-    public LocalDate getData_fine_manutenzione() {
-        return data_fine_manutenzione;
-    }
-
-    public void setData_fine_manutenzione(LocalDate data_fine_manutenzione) {
-        this.data_fine_manutenzione = data_fine_manutenzione;
-    }
-
     public Capienza getCapienza() {
         return capienza;
     }
@@ -82,51 +65,40 @@ public class Mezzi {
         this.capienza = capienza;
     }
 
-    public TipoMezzo getTipo_mezzo() {
-        return tipo_mezzo;
+    public TipoMezzo getTipoMezzo() {
+        return tipoMezzo;
     }
 
-    public void setTipo_mezzo(TipoMezzo tipo_mezzo) {
-        this.tipo_mezzo = tipo_mezzo;
+    public void setTipoMezzo(TipoMezzo tipoMezzo) {
+        this.tipoMezzo = tipoMezzo;
     }
 
-    public List<Tratta> getTratte() {
-        return tratte;
+    public Long getContoBigliettiVidimati() {
+        return contoBigliettiVidimati;
     }
 
-    public void setTratte(List<Tratta> tratte) {
-        this.tratte = tratte;
+    public void setContoBigliettiVidimati(Long contoBigliettiVidimati) {
+        this.contoBigliettiVidimati = contoBigliettiVidimati;
     }
 
-    public int getNumero_tratte_effettuate() {
-        return numero_tratte_effettuate;
+    public Tratta getTratta() {
+        return tratta;
     }
 
-    public void setNumero_tratte_effettuate(int numero_tratte_effettuate) {
-        this.numero_tratte_effettuate = numero_tratte_effettuate;
+    public void setTratta(Tratta tratta) {
+        this.tratta = tratta;
     }
 
-    public List<BigliettiVidimati> getBiglietti_vidimati() {
-        return biglietti_vidimati;
-    }
-
-    public void setBiglietti_vidimati(List<BigliettiVidimati> biglietti_vidimati) {
-        this.biglietti_vidimati = biglietti_vidimati;
-    }
-
+    // Aggiungi un toString() per debugging (opzionale)
     @Override
     public String toString() {
         return "Mezzi{" +
-                "id=" + id +
+                "id=" + id_mezzi +
                 ", stato=" + stato +
-                ", data_inizio_manutenzione=" + data_inizio_manutenzione +
-                ", data_fine_manutenzione=" + data_fine_manutenzione +
                 ", capienza=" + capienza +
-                ", tipo_mezzo=" + tipo_mezzo +
-                ", tratte=" + tratte +
-                ", numero_tratte_effettuate=" + numero_tratte_effettuate +
-                ", biglietti_vidimati=" + biglietti_vidimati +
-                ", corsa=" + corsa +
+                ", tipoMezzo=" + tipoMezzo +
+                ", contoBigliettiVidimati=" + contoBigliettiVidimati +
+                ", tratta=" + (tratta != null ? tratta.getId_tratta() : "null") +
                 '}';
     }
 }

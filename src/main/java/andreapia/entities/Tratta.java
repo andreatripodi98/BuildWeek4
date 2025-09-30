@@ -2,40 +2,38 @@ package andreapia.entities;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
+
 @Entity
-@Table(name = "tratte")
+@Table(name = "tratta")
 public class Tratta {
-    //ATTRIBUTI
+
     @Id
     @GeneratedValue
-    private UUID id;
+    private UUID id_tratta;
+
+    @Column(name = "zona_di_partenza", nullable = false)
     private String zona_di_partenza;
+
+    @Column(name = "capolinea", nullable = false)
     private String capolinea;
+
+    @Column(name = "tempo_previsto_di_percorrenza", nullable = false)
     private double tempo_previsto_di_percorrenza;
-    @OneToMany(mappedBy = "id_tratta")
-    private List<Corsa> corse = new ArrayList<>();
-    @ManyToOne
-    @JoinColumn(name = "tratte")
-    private Mezzi mezzi;
 
-    //COSTRUTTORI
-    public Tratta (){}
+    public Tratta() {
 
-    public Tratta( String zona_di_partenza, String capolinea, double tempo_previsto_di_percorrenza) {
+    }
+
+    public Tratta(String zona_di_partenza, String capolinea, double tempo_previsto_di_percorrenza) {
         this.zona_di_partenza = zona_di_partenza;
         this.capolinea = capolinea;
         this.tempo_previsto_di_percorrenza = tempo_previsto_di_percorrenza;
     }
 
-    //METODI
-
-    public UUID getId() {
-        return id;
+    public UUID getId_tratta() {
+        return id_tratta;
     }
-
 
     public String getZona_di_partenza() {
         return zona_di_partenza;
@@ -64,12 +62,10 @@ public class Tratta {
     @Override
     public String toString() {
         return "Tratta{" +
-                "id=" + id +
+                "id_tratta=" + id_tratta +
                 ", zona_di_partenza='" + zona_di_partenza + '\'' +
                 ", capolinea='" + capolinea + '\'' +
                 ", tempo_previsto_di_percorrenza=" + tempo_previsto_di_percorrenza +
-                ", corse=" + corse +
-                ", mezzi=" + mezzi +
                 '}';
     }
 }

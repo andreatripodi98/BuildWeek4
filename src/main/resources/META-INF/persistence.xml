@@ -7,10 +7,17 @@
     <persistence-unit name="bw4pu" transaction-type="RESOURCE_LOCAL">
         <class>andreapia.entities.Tessera</class>
         <class>andreapia.entities.Utente</class>
-        <class>andreapia.entities.Mezzi</class>
-        <class>andreapia.entities.Tratta</class>
-        <class>andreapia.entities.Corsa</class>
+        <class>andreapia.entities.Abbonamenti</class>
+        <class>andreapia.entities.Biglietti</class>
         <class>andreapia.entities.BigliettiVidimati</class>
+        <class>andreapia.entities.Corsa</class>
+        <class>andreapia.entities.Distributore</class>
+        <class>andreapia.entities.Mezzi</class>
+        <class>andreapia.entities.Rivenditore</class>
+        <class>andreapia.entities.Ticket</class>
+        <class>andreapia.entities.Tratta</class>
+        <class>andreapia.entities.StoricoMezzi</class>
+        <class>andreapia.entities.Venditore</class>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/bw4"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
