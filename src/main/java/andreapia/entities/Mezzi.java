@@ -19,9 +19,6 @@ public class Mezzi {
     @Enumerated(EnumType.STRING)
     private StatoMezzo stato;
 
-    private LocalDate data_inizio_manutenzione;
-    private LocalDate data_fine_manutenzione;
-
     @Enumerated(EnumType.STRING)
     private Capienza capienza;
 
@@ -39,10 +36,8 @@ public class Mezzi {
     public Mezzi() {
     }
 
-    public Mezzi(StatoMezzo stato, LocalDate data_inizio_manutenzione, LocalDate data_fine_manutenzione, Capienza capienza, TipoMezzo tipoMezzo, Long contoBigliettiVidimati, Tratta tratta) {
+    public Mezzi(StatoMezzo stato, Capienza capienza, TipoMezzo tipoMezzo, Long contoBigliettiVidimati, Tratta tratta) {
         this.stato = stato;
-        this.data_inizio_manutenzione = data_inizio_manutenzione;
-        this.data_fine_manutenzione = data_fine_manutenzione;
         this.capienza = capienza;
         this.tipoMezzo = tipoMezzo;
         this.contoBigliettiVidimati = contoBigliettiVidimati;
@@ -60,22 +55,6 @@ public class Mezzi {
 
     public void setStato(StatoMezzo stato) {
         this.stato = stato;
-    }
-
-    public LocalDate getData_inizio_manutenzione() {
-        return data_inizio_manutenzione;
-    }
-
-    public void setData_inizio_manutenzione(LocalDate data_inizio_manutenzione) {
-        this.data_inizio_manutenzione = data_inizio_manutenzione;
-    }
-
-    public LocalDate getData_fine_manutenzione() {
-        return data_fine_manutenzione;
-    }
-
-    public void setData_fine_manutenzione(LocalDate data_fine_manutenzione) {
-        this.data_fine_manutenzione = data_fine_manutenzione;
     }
 
     public Capienza getCapienza() {
@@ -116,8 +95,6 @@ public class Mezzi {
         return "Mezzi{" +
                 "id=" + id_mezzi +
                 ", stato=" + stato +
-                ", data_inizio_manutenzione=" + data_inizio_manutenzione +
-                ", data_fine_manutenzione=" + data_fine_manutenzione +
                 ", capienza=" + capienza +
                 ", tipoMezzo=" + tipoMezzo +
                 ", contoBigliettiVidimati=" + contoBigliettiVidimati +

@@ -7,11 +7,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "distributore")
-public class Distributore {
-
-    @Id
-    @GeneratedValue
-    private UUID id_distributore;
+@PrimaryKeyJoinColumn(name = "id")
+public class Distributore extends Venditore {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "stato", nullable = false)
@@ -23,7 +20,6 @@ public class Distributore {
         this.stato = stato;
     }
 
-    public UUID getId() { return id_distributore; }
     public StatoDistributore getStato() { return stato; }
     public void setStato(StatoDistributore stato) { this.stato = stato; }
 }

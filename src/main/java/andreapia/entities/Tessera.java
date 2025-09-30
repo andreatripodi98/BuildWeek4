@@ -1,9 +1,6 @@
 package andreapia.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -20,17 +17,24 @@ public class Tessera {
     @Column(name = "data_scadenza")
     private LocalDate dataScadenza;
 
+    @OneToOne
+    @JoinColumn(name = "id_utente")
+    private Utente utente;
 
-    public Tessera(UUID idTessera, LocalDate dataEmissione, LocalDate dataScadenza) {
-        this.idTessera = idTessera;
+    @OneToOne
+    @JoinColumn(name = "id_abbonamenti")
+    private Abbonamenti abbonamenti;
+
+    public Tessera(LocalDate dataEmissione, LocalDate dataScadenza, Utente utente, Abbonamenti abbonamenti) {
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataScadenza;
+        this.utente = utente;
+        this.abbonamenti = abbonamenti;
     }
 
     public UUID getIdTessera() {
         return idTessera;
     }
-
 
     public LocalDate getDataEmissione() {
         return dataEmissione;
@@ -48,6 +52,21 @@ public class Tessera {
         this.dataScadenza = dataScadenza;
     }
 
+    public Utente getUtente() {
+        return utente;
+    }
+
+    public void setUtente(Utente utente) {
+        this.utente = utente;
+    }
+
+    public Abbonamenti getAbbonamenti() {
+        return abbonamenti;
+    }
+
+    public void setAbbonamenti(Abbonamenti abbonamenti) {
+        this.abbonamenti = abbonamenti;
+    }
 
     @Override
     public String toString() {
@@ -55,6 +74,8 @@ public class Tessera {
                 "idTessera=" + idTessera +
                 ", dataEmissione=" + dataEmissione +
                 ", dataScadenza=" + dataScadenza +
+                ", utente=" + utente +
+                ", abbonamenti=" + abbonamenti +
                 '}';
     }
 }

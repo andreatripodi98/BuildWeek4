@@ -1,7 +1,6 @@
 package andreapia.entities;
 
 import andreapia.enums.TipoRivenditore;
-import andreapia.enums.TipoTicket;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -15,14 +14,15 @@ public class Biglietti extends Ticket {
     @Column(name = "stato", nullable = false)
     private boolean stato;
 
-    protected Biglietti() {}
+    protected Biglietti() {
+    }
 
-    public Biglietti(boolean stato) {
+    public Biglietti(Venditore idVenditore, LocalDate dataEmissione, LocalDate dataScadenza, Utente utente, boolean stato) {
+        super(idVenditore, dataEmissione, dataScadenza, utente);
         this.stato = stato;
     }
 
-    public Biglietti(TipoRivenditore tipoRivenditore, Rivenditore idRivenditore, Distributore idDistributore, LocalDate dataEmissione, LocalDate dataScadenza, TipoTicket tipoTicket, UUID tipoTicketId, Utente utente, boolean stato) {
-        super(tipoRivenditore, idRivenditore, idDistributore, dataEmissione, dataScadenza, tipoTicket, tipoTicketId, utente);
+    public Biglietti(boolean stato) {
         this.stato = stato;
     }
 
@@ -32,6 +32,13 @@ public class Biglietti extends Ticket {
 
     public void setStato(boolean stato) {
         this.stato = stato;
+    }
+
+    @Override
+    public String toString() {
+        return "Biglietti{" +
+                "stato=" + stato +
+                "} " + super.toString();
     }
 }
 
