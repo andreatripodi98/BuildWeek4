@@ -100,6 +100,22 @@ public class MezziDAO {
         }
     }
 
-    // Per fare gli altri metodi relativi alle corse dobbiamo cambiare la tabella mezzi. togliere l'id tratta e mettere nella tratta l'id del mezzo.
-    // perchè una tratta deve avere per forza un mezzo.
+    public long contaCorsePercorseDaMezzo(UUID mezzoId) {
+        try {
+            // Query per contare le corse di un mezzo tra le tabelle corsa e mezzo
+            Long conteggio = em.createQuery(
+                            "SELECT COUNT(c) FROM Corsa c WHERE c.mezzo.id = :idMezzo", Long.class)
+                    .setParameter("idMezzo", mezzoId)
+                    .getSingleResult();
+            System.out.println("Numero totale di corse percorse dal Mezzo " + mezzoId + ": " + conteggio);
+            return conteggio;
+        } catch (NoResultException e) {
+            // Se non ci sono corse per quel mezzo restituisce 0
+            return 0;
+        } catch (Exception e) {
+            System.out.println("Errore nel conteggio delle corse: " + e.getMessage());
+            return -1;
+        }
+    }
+
 }

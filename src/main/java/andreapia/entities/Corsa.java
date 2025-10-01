@@ -14,8 +14,12 @@ public class Corsa {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn (name="id_tratta")
+    @JoinColumn(name = "id_tratta")
     private Tratta id_tratta;
+
+    @ManyToOne
+    @JoinColumn(name = "id_mezzo")
+    private Mezzi mezzo;
 
     @Column(name = "inizio_corsa", nullable = false)
     private LocalDate inizio_corsa;
@@ -24,14 +28,14 @@ public class Corsa {
     private LocalDate fine_corsa;
 
 
+    public Corsa() {
 
-public Corsa (){
+    }
 
-}
-
-    public Corsa( Tratta id_tratta, LocalDate inizio_corsa, LocalDate fine_corsa) {
+    public Corsa(Tratta id_tratta, Mezzi mezzo, LocalDate inizio_corsa, LocalDate fine_corsa) {
 
         this.id_tratta = id_tratta;
+        this.mezzo = mezzo;
         this.inizio_corsa = inizio_corsa;
         this.fine_corsa = fine_corsa;
     }
