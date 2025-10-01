@@ -1,6 +1,8 @@
 package andreapia.dao;
 
+import andreapia.entities.Distributore;
 import andreapia.entities.Venditore;
+import andreapia.enums.StatoDistributore;
 import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -27,13 +29,35 @@ public class VenditoreDAO {
             System.out.println(e.getMessage());
         }
     }
-
-    public Venditore findVenditoreById(String id) {
-        Venditore ticketFound = em.find(Venditore.class, UUID.fromString(id));
-        System.out.println("Venditore trovato: " + ticketFound.getId());
-        if (ticketFound == null)
+    // Metodo find by Id
+    public Venditore findById(String id){
+        Venditore v = em.find(Venditore.class, UUID.fromString(id));
+        if ( v == null){
             throw new NotFoundException(id);
-        return ticketFound;
+        }
+        System.out.println("Venditore num" + v.getId() + " trovato");
+        return v;
+    }
+    //Metodo setState
+    public void updateStatoDistributore (String id, String nuovoStatoDistributore){
+        EntityTransaction s = em.getTransaction();
+        try {
+            s.begin();
+
+            Distributore d = em.find(Distributore.class, UUID.fromString(id));
+            if (d == null){
+                throw new NotFoundException("Venditore non esistente");
+            }
+            if (nuovoStatoDistributore == "Attivo"){
+                d.setStato(StatoDistributore.ATTIVO);
+            }
+            else if (nuovoStatoDistributore == "Fuori Servizio"){
+                d.setStato(StatoDistributore.FUORI_SERVIZIO);
+            }
+
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
