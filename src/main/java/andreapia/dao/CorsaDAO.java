@@ -34,7 +34,9 @@ public class CorsaDAO {
     public Corsa findById(UUID id) {
 
         Corsa found = em.find(Corsa.class, id);
-        if (found == null) throw new NotFoundException(id.toString());
+        if (found == null) {
+            throw new NotFoundException(id.toString());
+        }
         return found;
     }
 

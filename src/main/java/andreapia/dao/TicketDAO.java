@@ -31,10 +31,10 @@ public class TicketDAO {
 
     public Abbonamenti findById(String id) {
         Abbonamenti ticketFound = em.find(Abbonamenti.class, UUID.fromString(id));
-        System.out.println("Ticket trovato: " + ticketFound.getId());
-        if (ticketFound == null)
+        if (ticketFound == null) {
             throw new NotFoundException(id);
+        }
+        System.out.println("Ticket trovato: " + ticketFound.getId());
         return ticketFound;
-
     }
 }

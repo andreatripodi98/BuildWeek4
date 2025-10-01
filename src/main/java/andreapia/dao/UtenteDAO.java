@@ -32,10 +32,10 @@ public class UtenteDAO {
     // Metodo utente by ID
     public Utente findById(String id) {
         Utente userFound = em.find(Utente.class, UUID.fromString(id));
-        System.out.println("Utente trovato: " + userFound.getNomeUtente() + " " + userFound.getCognomeUtente());
-        if (userFound == null)
+        if (userFound == null) {
             throw new NotFoundException(id);
+        }
+        System.out.println("Utente trovato: " + userFound.getNomeUtente() + " " + userFound.getCognomeUtente());
         return userFound;
-        
     }
 }
