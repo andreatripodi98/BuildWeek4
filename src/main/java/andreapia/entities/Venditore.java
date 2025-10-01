@@ -1,5 +1,6 @@
 package andreapia.entities;
 
+import andreapia.enums.TipoRivenditore;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -11,10 +12,26 @@ public abstract class Venditore {
     @GeneratedValue
     private UUID id;
 
+    @Column (name = "tipo_rivenditore")
+    private TipoRivenditore tipoRivenditore;
+
+    public TipoRivenditore getTipoRivenditore() {
+        return tipoRivenditore;
+    }
+
+    public void setTipoRivenditore(TipoRivenditore tipoRivenditore) {
+        this.tipoRivenditore = tipoRivenditore;
+    }
+
+    public Venditore(TipoRivenditore tipoRivenditore) {
+        this.tipoRivenditore = tipoRivenditore;
+    }
+
     public Venditore() {
     }
 
     public UUID getId() {
         return id;
     }
+
 }

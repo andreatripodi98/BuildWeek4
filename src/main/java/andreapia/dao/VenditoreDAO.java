@@ -1,12 +1,17 @@
 package andreapia.dao;
 
 import andreapia.entities.Distributore;
+import andreapia.entities.Utente;
 import andreapia.entities.Venditore;
 import andreapia.enums.StatoDistributore;
+import andreapia.enums.TipoRivenditore;
+import andreapia.enums.TipoUtente;
 import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 
+import java.util.List;
 import java.util.UUID;
 
 public class VenditoreDAO {
@@ -58,6 +63,14 @@ public class VenditoreDAO {
         } catch (NotFoundException e) {
             throw new RuntimeException(e);
         }
-
     }
+        public List<Venditore> findByTipoVenditore(TipoRivenditore tipo) {
+            String listaTrovati = "SELECT u FROM Venditore u WHERE u.tipoRivenditore = :tipo";
+
+            TypedQuery<Venditore> query = em.createQuery(listaTrovati, Venditore.class);
+
+            query.setParameter("tipo", tipo);
+
+            return query.getResultList();
+        }
 }

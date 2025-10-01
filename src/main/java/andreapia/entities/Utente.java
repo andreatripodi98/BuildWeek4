@@ -61,11 +61,10 @@ public class Utente {
 
     @Override
     public String toString() {
-        return "Utente{" +
-                "idUtente=" + idUtente +
-                ", tipoUtente=" + tipoUtente +
-                ", nomeUtente='" + nomeUtente + '\'' +
-                ", cognomeUtente='" + cognomeUtente + '\'' +
-                '}';
+        return "Utente: " +
+                "ID Utente: " + idUtente +
+                ", tipo Utente: " + tipoUtente +
+                ", Nome Utente: " + nomeUtente  +
+                ", Cognome Utente: " + cognomeUtente ;
     }
 }

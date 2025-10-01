@@ -16,7 +16,7 @@ public class Distributore extends Venditore {
     @Column(name = "stato", nullable = false)
     private StatoDistributore stato;
 
-    protected Distributore() {
+    public Distributore() {
     }
 
     public Distributore(StatoDistributore stato) {

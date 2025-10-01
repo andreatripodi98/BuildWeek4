@@ -1,16 +1,16 @@
 package andreapia;
 
 import andreapia.dao.*;
-import andreapia.entities.Biglietti;
-import andreapia.entities.Rivenditore;
-import andreapia.entities.Utente;
-import andreapia.entities.Venditore;
+import andreapia.entities.*;
+import andreapia.enums.StatoDistributore;
+import andreapia.enums.TipoRivenditore;
 import andreapia.enums.TipoUtente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class Application {
@@ -30,21 +30,17 @@ public class Application {
         TrattaDAO trattaDAO = new TrattaDAO(em);
         CorsaDAO corsaDAO = new CorsaDAO(em);
         TicketDAO ticketDAO = new TicketDAO(em);
-
         Rivenditore rivenditore1 = new Rivenditore();
-//        venditoreDAO.saveVenditore(rivenditore1);
-        Venditore rivenditoreFromDb = venditoreDAO.findById("f6fae061-7485-4524-8e22-2edc08eda5ca");
+        Rivenditore rivenditore2 = new Rivenditore();
+        Distributore distributore1 = new Distributore(StatoDistributore.ATTIVO);
+        Distributore distributore2 = new Distributore(StatoDistributore.FUORI_SERVIZIO);
+        venditoreDAO.saveVenditore(rivenditore1);
+        venditoreDAO.saveVenditore(rivenditore2);
+        venditoreDAO.saveVenditore(distributore1);
+        venditoreDAO.saveVenditore(distributore2);
+
+
         boolean continua = true;
-
-        Utente utenteFromDB = utenteDAO.findById("e7084208-5639-4b0b-9980-c91ffa3437de");
-        Biglietti biglietti1 = new Biglietti(rivenditoreFromDb, LocalDate.now(), utenteFromDB, true);
-        ticketDAO.saveTicket(biglietti1);
-
-        //RICERCA BIGLIETTI EMESSI IN UN DETERMINATO PERIODO
-        ticketDAO.bigliettiEmessiPerPeriodo(LocalDate.of(2025, 10, 1), LocalDate.of(2025, 10, 2));
-        //RICERCA BIGLIETTI EMESSI DA RIVENDITORE SPECIFICO
-        ticketDAO.bigliettiEmessiVenditore(rivenditoreFromDb);
-
 
         //-----------------------------------TEST INSERIMENTO UTENTI-------------------------------
         while (continua) {
@@ -87,27 +83,82 @@ public class Application {
                     }
                     break;
                 case 2:
-                    break;
-
-
-            }
-        }
         while (continua) {
             System.out.println("scegli utente: ");
             System.out.println("premi 1 per amministratore");
             System.out.println("premi 2 per utente");
             int scelta3 = scanner.nextInt();
             if (scelta3 == 1) {
+                System.out.println("Quale amministratore sei?");
+                int conteggio = 1;
+                List<Utente> listaAmministratori = utenteDAO.findByTipoUtente(TipoUtente.AMMINISTRATORE);
+                for (Utente utente: listaAmministratori){
+                    System.out.println(conteggio + ": " + utente);
+                    conteggio++;
+                }
+                int scelta4 = scanner.nextInt();
+                Utente amministratoreScelto = listaAmministratori.get(scelta4 -1);
+                System.out.println("Admin selezionato: " + amministratoreScelto);
                 System.out.println("inserisci la password");
                 scanner.nextLine();
                 String password = scanner.nextLine();
                 if (password.equals("admin123")) {
                     System.out.println("controlla i biglietti venduti");
                 }
+            } else if (scelta3 == 2){
+                int conteggio1 = 1;
+                System.out.println("Quale utente sei?");
+                List<Utente> listaUtenti = utenteDAO.findByTipoUtente(TipoUtente.UTENTE);
+                for ( Utente utente: listaUtenti){
+                    System.out.println(conteggio1 + ": " + utente);
+                    conteggio1++;
+                }
+                int scelta5 = scanner.nextInt();
+                Utente utenteScelto = listaUtenti.get(scelta5 -1);
+                System.out.println("Utente selezionato: " + utenteScelto);
+                System.out.println("Cosa vuoi fare?!");
+                System.out.println("premi 1 per acquistare un biglietto");
+                System.out.println("premi 2 per acquistare un abbonamento");
+                System.out.println("premi 3 per acquistare una tessera");
+                System.out.println("premi 4 per scegleire la tratta");
+                int scelta6 = scanner.nextInt();
+                switch ( scelta6){
+                    case 1:
+                        System.out.println("Da dove vuoi acquistare il biglietto?");
+                        System.out.println("Premi 1 per distributore automatico");
+                        System.out.println("Premi 2 per rivenditore autorizzato");
+                        int scelta7 = scanner.nextInt();
+                        if (scelta7 == 1){
+                            List<Venditore> listaDistributori = venditoreDAO.findByTipoVenditore(TipoRivenditore.DISTRIBUTORE);
+                        int conteggio2 = 1;
+                        for (Venditore venditore: listaDistributori){
+                            System.out.println( conteggio2 + ": " + venditore);
+                            conteggio2++;
+                        }
+                        }
+                        else if (scelta7 == 2){
+                            List<Venditore> listaRiuenditori = venditoreDAO.findByTipoVenditore(TipoRivenditore.RIVENDITORE);
+                            int conteggio3 = 1;
+                            for (Venditore venditore: listaRiuenditori){
+                                System.out.println( conteggio3 + ": " + venditore);
+                                conteggio3++;
+                    }
+                        break;
+                    //case 2:
+                       // break;
+                   // case 3:
+                      //  break;
+                   // case 4:
+                      //  break;
+                }
+
             }
+                    break;
+            }
+        }
 //           else if () {
 //
-//            }
+           }
         }
 
 
