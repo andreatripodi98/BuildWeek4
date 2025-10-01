@@ -29,8 +29,8 @@ public Corsa (){
 
 }
 
-    public Corsa(UUID id, Tratta id_tratta, LocalDate inizio_corsa, LocalDate fine_corsa) {
-        this.id = id;
+    public Corsa( Tratta id_tratta, LocalDate inizio_corsa, LocalDate fine_corsa) {
+
         this.id_tratta = id_tratta;
         this.inizio_corsa = inizio_corsa;
         this.fine_corsa = fine_corsa;

@@ -1,10 +1,13 @@
 package andreapia.dao;
 
 import andreapia.entities.Corsa;
+import andreapia.entities.Mezzi;
+import andreapia.entities.Tratta;
 import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class CorsaDAO {
@@ -33,5 +36,24 @@ public class CorsaDAO {
         Corsa found = em.find(Corsa.class, id);
         if(found == null) throw new NotFoundException(id.toString());
         return found;
+    }
+//metodo per assegnare corsa
+    public void  assegnaCorsa(Tratta id, LocalDate inizioCorsa, LocalDate fineCorsa){
+        try{
+            EntityTransaction t = em.getTransaction();
+            t.begin();
+//            recuperiamo tratta con id passato nel parametro
+            Tratta tratta = em.find(Tratta.class, id);
+//            se la tratta esiste salva corsa con i dati passati
+            if(tratta != null){
+                Corsa corsa = new Corsa(id, inizioCorsa,fineCorsa);
+                em.persist(corsa);
+                t.commit();
+                System.out.println("corsa assegnata alla tratta: " + id);
+//                altrimenti errore
+            }else System.out.println("errore");
+        }catch(Exception exception){
+            System.out.println(exception.getMessage());
+        }
     }
 }

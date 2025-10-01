@@ -27,7 +27,6 @@ public class Tratta {
 
 
     public Tratta() {
-
     }
 
     public Tratta(String zona_di_partenza, String capolinea, double tempo_previsto_di_percorrenza, Mezzi mezzi) {
@@ -35,6 +34,7 @@ public class Tratta {
         this.capolinea = capolinea;
         this.tempo_previsto_di_percorrenza = tempo_previsto_di_percorrenza;
         this.mezzi = mezzi;
+
     }
 
     public UUID getId_tratta() {
