@@ -1,8 +1,11 @@
 package andreapia.dao;
 
 import andreapia.entities.StoricoMezzi;
+import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+
+import java.util.UUID;
 
 public class StoricoDAO {
     private EntityManager em;
@@ -24,4 +27,14 @@ public class StoricoDAO {
             System.out.println(e.getMessage());
         }
     }
+    // Metodo storico by id
+    public StoricoMezzi findById(String id){
+        StoricoMezzi storico = em.find(StoricoMezzi.class, UUID.fromString(id));
+        if (storico == null){
+            throw new NotFoundException("L'id inserito non è valido ");
+        }
+        System.out.println("Storico trovato ");
+        return storico;
+    }
+
 }
