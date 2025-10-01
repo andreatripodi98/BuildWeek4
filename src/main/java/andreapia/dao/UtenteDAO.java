@@ -51,5 +51,5 @@ public class UtenteDAO {
 
         return query.getResultList();
     }
-    
+
 }

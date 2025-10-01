@@ -25,18 +25,14 @@ public class Mezzi {
     @Column(name = "tipo_mezzo")
     private TipoMezzo tipoMezzo;
 
-    @Column(name = "conto_biglietti_vidimati")
-    private Long contoBigliettiVidimati;
-
 
     public Mezzi() {
     }
 
-    public Mezzi(StatoMezzo stato, Capienza capienza, TipoMezzo tipoMezzo, Long contoBigliettiVidimati) {
+    public Mezzi(StatoMezzo stato, Capienza capienza, TipoMezzo tipoMezzo) {
         this.stato = stato;
         this.capienza = capienza;
         this.tipoMezzo = tipoMezzo;
-        this.contoBigliettiVidimati = contoBigliettiVidimati;
     }
 
 
@@ -68,14 +64,6 @@ public class Mezzi {
         this.tipoMezzo = tipoMezzo;
     }
 
-    public Long getContoBigliettiVidimati() {
-        return contoBigliettiVidimati;
-    }
-
-    public void setContoBigliettiVidimati(Long contoBigliettiVidimati) {
-        this.contoBigliettiVidimati = contoBigliettiVidimati;
-    }
-
 
     // Aggiungi un toString() per debugging (opzionale)
     @Override
@@ -85,7 +73,6 @@ public class Mezzi {
                 ", stato=" + stato +
                 ", capienza=" + capienza +
                 ", tipoMezzo=" + tipoMezzo +
-                ", contoBigliettiVidimati=" + contoBigliettiVidimati +
                 '}';
     }
 }
