@@ -17,8 +17,8 @@ public class Biglietti extends Ticket {
     protected Biglietti() {
     }
 
-    public Biglietti(Venditore idVenditore, LocalDate dataEmissione, LocalDate dataScadenza, Utente utente, boolean stato) {
-        super(idVenditore, dataEmissione, dataScadenza, utente);
+    public Biglietti(Venditore idVenditore, LocalDate dataEmissione, Utente utente, boolean stato) {
+        super(idVenditore, dataEmissione, utente);
         this.stato = stato;
     }
 
