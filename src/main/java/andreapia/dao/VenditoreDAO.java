@@ -1,5 +1,6 @@
 package andreapia.dao;
 
+import andreapia.entities.Distributore;
 import andreapia.entities.Venditore;
 import andreapia.enums.StatoDistributore;
 import andreapia.exceptions.NotFoundException;
@@ -38,4 +39,25 @@ public class VenditoreDAO {
         return v;
     }
     //Metodo setState
+    public void updateStatoDistributore (String id, String nuovoStatoDistributore){
+        EntityTransaction s = em.getTransaction();
+        try {
+            s.begin();
+
+            Distributore d = em.find(Distributore.class, UUID.fromString(id));
+            if (d == null){
+                throw new NotFoundException("Venditore non esistente");
+            }
+            if (nuovoStatoDistributore == "Attivo"){
+                d.setStato(StatoDistributore.ATTIVO);
+            }
+            else if (nuovoStatoDistributore == "Fuori Servizio"){
+                d.setStato(StatoDistributore.FUORI_SERVIZIO);
+            }
+
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
