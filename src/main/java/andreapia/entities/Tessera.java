@@ -21,9 +21,8 @@ public class Tessera {
     @JoinColumn(name = "id_utente")
     private Utente utente;
 
-    @OneToOne(mappedBy = "abbonamenti")
-    Abbonamenti abbonamento;
-
+    @OneToOne(mappedBy = "tessera")
+    private Abbonamenti abbonamento;
 
     public Tessera(){
         
