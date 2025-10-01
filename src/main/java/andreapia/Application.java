@@ -33,7 +33,7 @@ public class Application {
 
         Rivenditore rivenditore1 = new Rivenditore();
 //        venditoreDAO.saveVenditore(rivenditore1);
-        Venditore rivenditoreFromDb = venditoreDAO.findVenditoreById("f6fae061-7485-4524-8e22-2edc08eda5ca");
+        Venditore rivenditoreFromDb = venditoreDAO.findById("f6fae061-7485-4524-8e22-2edc08eda5ca");
         boolean continua = true;
 
         Utente utenteFromDB = utenteDAO.findById("e7084208-5639-4b0b-9980-c91ffa3437de");
@@ -129,7 +129,6 @@ public class Application {
 //
 //
     }
-
 
 
 }

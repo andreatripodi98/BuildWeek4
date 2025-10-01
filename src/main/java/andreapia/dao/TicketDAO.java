@@ -54,19 +54,32 @@ public class TicketDAO {
     //METODO PER NUMERO BIGLIETTI EMESSEI PER PERIODO DI TEMPO
 
     public Long bigliettiEmessiPerPeriodo(LocalDate dataInizio, LocalDate dataFine) {
-        TypedQuery<Long> query = em.createQuery("SELECT COUNT (b) FROM Ticket b WHERE b.dataEmissione BETWEEN :dataInizio AND :dataFine", Long.class);
-        query.setParameter("dataInizio", dataInizio);
-        query.setParameter("dataFine", dataFine);
-        System.out.println("sono stati trovati " + query.getSingleResult() + " biglietti emessi tra " + dataInizio + " e il " + dataFine);
-        return query.getSingleResult();
+        try {
+            TypedQuery<Long> query = em.createQuery("SELECT COUNT (b) FROM Ticket b WHERE b.dataEmissione BETWEEN :dataInizio AND :dataFine", Long.class);
+            query.setParameter("dataInizio", dataInizio);
+            query.setParameter("dataFine", dataFine);
+            System.out.println("sono stati trovati " + query.getSingleResult() + " biglietti emessi tra " + dataInizio + " e il " + dataFine);
+            return query.getSingleResult();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return 0L;
+        }
     }
 
     //METODO PER NUMERI BIGLIETTI EMESSI PER VENDITORE
 
     public Long bigliettiEmessiVenditore(Venditore rivenditore) {
-        TypedQuery<Long> query = em.createQuery("SELECT COUNT (b) FROM Ticket b WHERE b.idVenditore = :idVenditore", Long.class);
-        query.setParameter("idVenditore", rivenditore);
-        System.out.println("il rivenditore " + rivenditore.getId() + " ha emesso " + query.getSingleResult() + " biglietti");
-        return query.getSingleResult();
+        try {
+            TypedQuery<Long> query = em.createQuery("SELECT COUNT (b) FROM Ticket b WHERE b.idVenditore = :idVenditore", Long.class);
+            query.setParameter("idVenditore", rivenditore);
+            System.out.println("il rivenditore " + rivenditore.getId() + " ha emesso " + query.getSingleResult() + " biglietti");
+            return query.getSingleResult();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return 0L;
+
+        }
     }
 }
