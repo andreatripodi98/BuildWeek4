@@ -21,14 +21,20 @@ public class Tratta {
     @Column(name = "tempo_previsto_di_percorrenza", nullable = false)
     private double tempo_previsto_di_percorrenza;
 
+    @OneToOne
+    @JoinColumn
+    private Mezzi mezzi;
+
+
     public Tratta() {
 
     }
 
-    public Tratta(String zona_di_partenza, String capolinea, double tempo_previsto_di_percorrenza) {
+    public Tratta(String zona_di_partenza, String capolinea, double tempo_previsto_di_percorrenza, Mezzi mezzi) {
         this.zona_di_partenza = zona_di_partenza;
         this.capolinea = capolinea;
         this.tempo_previsto_di_percorrenza = tempo_previsto_di_percorrenza;
+        this.mezzi = mezzi;
     }
 
     public UUID getId_tratta() {
@@ -57,6 +63,14 @@ public class Tratta {
 
     public void setTempo_previsto_di_percorrenza(double tempo_previsto_di_percorrenza) {
         this.tempo_previsto_di_percorrenza = tempo_previsto_di_percorrenza;
+    }
+
+    public Mezzi getMezzi() {
+        return mezzi;
+    }
+
+    public void setMezzi(Mezzi mezzi) {
+        this.mezzi = mezzi;
     }
 
     @Override

@@ -1,8 +1,11 @@
 package andreapia.dao;
 
 import andreapia.entities.Tratta;
+import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+
+import java.util.UUID;
 
 public class TrattaDAO {
     private EntityManager em;
@@ -24,4 +27,12 @@ public class TrattaDAO {
             System.out.println(e.getMessage());
         }
     }
+
+    public Tratta findById(UUID id_tratta) {
+        Tratta found = em.find(Tratta.class, id_tratta);
+        if(found == null) throw new NotFoundException(id_tratta.toString());
+        return found;
+    }
+
+
 }
