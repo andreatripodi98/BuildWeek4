@@ -1,13 +1,16 @@
 package andreapia;
 
 import andreapia.dao.*;
+import andreapia.entities.Biglietti;
 import andreapia.entities.Rivenditore;
 import andreapia.entities.Utente;
+import andreapia.entities.Venditore;
 import andreapia.enums.TipoUtente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Application {
@@ -29,8 +32,19 @@ public class Application {
         TicketDAO ticketDAO = new TicketDAO(em);
 
         Rivenditore rivenditore1 = new Rivenditore();
-        venditoreDAO.saveVenditore(rivenditore1);
+//        venditoreDAO.saveVenditore(rivenditore1);
+        Venditore rivenditoreFromDb = venditoreDAO.findVenditoreById("f6fae061-7485-4524-8e22-2edc08eda5ca");
         boolean continua = true;
+
+        Utente utenteFromDB = utenteDAO.findById("e7084208-5639-4b0b-9980-c91ffa3437de");
+        Biglietti biglietti1 = new Biglietti(rivenditoreFromDb, LocalDate.now(), LocalDate.now().plusYears(1), utenteFromDB, true);
+        ticketDAO.saveTicket(biglietti1);
+
+        //RICERCA BIGLIETTI EMESSI IN UN DETERMINATO PERIODO
+        ticketDAO.bigliettiEmessiPerPeriodo(LocalDate.of(2025, 10, 1), LocalDate.of(2025, 10, 2));
+        //RICERCA BIGLIETTI EMESSI DA RIVENDITORE SPECIFICO
+        ticketDAO.bigliettiEmessiVenditore(rivenditoreFromDb);
+
 
         //-----------------------------------TEST INSERIMENTO UTENTI-------------------------------
         while (continua) {
@@ -83,7 +97,7 @@ public class Application {
             System.out.println("premi 1 per amministratore");
             System.out.println("premi 2 per utente");
             int scelta3 = scanner.nextInt();
-            if(scelta3 == 1) {
+            if (scelta3 == 1) {
                 System.out.println("inserisci la password");
                 scanner.nextLine();
                 String password = scanner.nextLine();

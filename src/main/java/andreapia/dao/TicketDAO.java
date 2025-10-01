@@ -1,11 +1,15 @@
 package andreapia.dao;
 
 import andreapia.entities.Abbonamenti;
+import andreapia.entities.Biglietti;
 import andreapia.entities.Ticket;
-import andreapia.exceptions.NotFoundException;
+import andreapia.entities.Venditore;
+import andreapia.exceptions.IdNotValidException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class TicketDAO {
@@ -29,12 +33,40 @@ public class TicketDAO {
         }
     }
 
-    public Abbonamenti findById(String id) {
+    //METODO PER RICERCA ABBONAMENTO TRAMITE ID
+    public Abbonamenti findAbbonamentiById(String id) {
         Abbonamenti ticketFound = em.find(Abbonamenti.class, UUID.fromString(id));
-        System.out.println("Ticket trovato: " + ticketFound.getId());
+        System.out.println("Abbonamento trovato: " + ticketFound.getId());
         if (ticketFound == null)
-            throw new NotFoundException(id);
+            throw new IdNotValidException(id);
+        return ticketFound;
+    }
+
+    //METODO PER RICERCA BIGLIETTO TRAMITE ID
+    public Biglietti findBigliettiById(String id) {
+        Biglietti ticketFound = em.find(Biglietti.class, UUID.fromString(id));
+        System.out.println("Biglietto trovato: " + ticketFound.getId());
+        if (ticketFound == null)
+            throw new IdNotValidException(id);
         return ticketFound;
 
+    }
+    //METODO PER NUMERO BIGLIETTI EMESSEI PER PERIODO DI TEMPO
+
+    public Long bigliettiEmessiPerPeriodo(LocalDate dataInizio, LocalDate dataFine) {
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT (b) FROM Ticket b WHERE b.dataEmissione BETWEEN :dataInizio AND :dataFine", Long.class);
+        query.setParameter("dataInizio", dataInizio);
+        query.setParameter("dataFine", dataFine);
+        System.out.println("sono stati trovati " + query.getSingleResult() + " biglietti emessi tra " + dataInizio + " e il " + dataFine);
+        return query.getSingleResult();
+    }
+
+    //METODO PER NUMERI BIGLIETTI EMESSI PER VENDITORE
+
+    public Long bigliettiEmessiVenditore(Venditore rivenditore) {
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT (b) FROM Ticket b WHERE b.idVenditore = :idVenditore", Long.class);
+        query.setParameter("idVenditore", rivenditore);
+        System.out.println("il rivenditore " + rivenditore.getId() + " ha emesso " + query.getSingleResult() + " biglietti");
+        return query.getSingleResult();
     }
 }
