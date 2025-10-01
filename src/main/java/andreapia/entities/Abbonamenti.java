@@ -26,10 +26,10 @@ public class Abbonamenti extends Ticket {
     public Abbonamenti() {
     }
 
-    public Abbonamenti(Venditore idVenditore, LocalDate dataEmissione, LocalDate dataScadenza, Utente utente, TipoAbbonamento tipoAbbonamento, LocalDate dataScadenza1, Tessera tessera) {
-        super(idVenditore, dataEmissione, dataScadenza, utente);
+    public Abbonamenti(Venditore idVenditore, LocalDate dataEmissione, Utente utente, TipoAbbonamento tipoAbbonamento, LocalDate dataScadenza, Tessera tessera) {
+        super(idVenditore, dataEmissione, utente);
         this.tipoAbbonamento = tipoAbbonamento;
-        this.dataScadenza = dataScadenza1;
+        this.dataScadenza = dataScadenza;
         this.tessera = tessera;
     }
 
@@ -46,12 +46,10 @@ public class Abbonamenti extends Ticket {
         this.tipoAbbonamento = tipoAbbonamento;
     }
 
-    @Override
     public LocalDate getDataScadenza() {
         return dataScadenza;
     }
 
-    @Override
     public void setDataScadenza(LocalDate dataScadenza) {
         this.dataScadenza = dataScadenza;
     }

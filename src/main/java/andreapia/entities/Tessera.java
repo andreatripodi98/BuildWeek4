@@ -21,6 +21,9 @@ public class Tessera {
     @JoinColumn(name = "id_utente")
     private Utente utente;
 
+    @OneToOne(mappedBy = "tessera")
+    private Abbonamenti abbonamento;
+
     public Tessera(){
         
     }
@@ -59,14 +62,22 @@ public class Tessera {
         this.utente = utente;
     }
 
+    public Abbonamenti getAbbonamento() {
+        return abbonamento;
+    }
+
+    public void setAbbonamento(Abbonamenti abbonamento) {
+        this.abbonamento = abbonamento;
+    }
+
     @Override
     public String toString() {
         return "Tessera{" +
-                "idTessera=" + idTessera +
-                ", dataEmissione=" + dataEmissione +
+                "utente=" + utente +
                 ", dataScadenza=" + dataScadenza +
-                ", utente=" + utente +
-
+                ", dataEmissione=" + dataEmissione +
+                ", idTessera=" + idTessera +
                 '}';
     }
 }
+

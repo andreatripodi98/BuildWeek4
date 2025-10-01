@@ -36,20 +36,11 @@ public class TicketDAO {
     //METODO PER RICERCA ABBONAMENTO TRAMITE ID
     public Abbonamenti findAbbonamentiById(String id) {
         Abbonamenti ticketFound = em.find(Abbonamenti.class, UUID.fromString(id));
-        System.out.println("Abbonamento trovato: " + ticketFound.getId());
-        if (ticketFound == null)
-            throw new IdNotValidException(id);
+        if (ticketFound == null) {
+            throw new NotFoundException(id);
+        }
+        System.out.println("Ticket trovato: " + ticketFound.getId());
         return ticketFound;
-    }
-
-    //METODO PER RICERCA BIGLIETTO TRAMITE ID
-    public Biglietti findBigliettiById(String id) {
-        Biglietti ticketFound = em.find(Biglietti.class, UUID.fromString(id));
-        System.out.println("Biglietto trovato: " + ticketFound.getId());
-        if (ticketFound == null)
-            throw new IdNotValidException(id);
-        return ticketFound;
-
     }
     //METODO PER NUMERO BIGLIETTI EMESSEI PER PERIODO DI TEMPO
 

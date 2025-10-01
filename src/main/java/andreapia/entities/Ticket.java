@@ -22,19 +22,15 @@ public abstract class Ticket {
     @Column(name = "data_emissione", nullable = false)
     private LocalDate dataEmissione;
 
-    @Column(name = "data_scadenza")
-    private LocalDate dataScadenza;
-
     @ManyToOne
     @JoinColumn(name = "id_utente", nullable = false)
     private Utente utente;
 
     protected Ticket() {}
 
-    public Ticket(Venditore idVenditore, LocalDate dataEmissione, LocalDate dataScadenza, Utente utente) {
+    public Ticket(Venditore idVenditore, LocalDate dataEmissione, Utente utente) {
         this.idVenditore = idVenditore;
         this.dataEmissione = dataEmissione;
-        this.dataScadenza = dataScadenza;
         this.utente = utente;
     }
 
@@ -58,14 +54,6 @@ public abstract class Ticket {
         this.dataEmissione = dataEmissione;
     }
 
-    public LocalDate getDataScadenza() {
-        return dataScadenza;
-    }
-
-    public void setDataScadenza(LocalDate dataScadenza) {
-        this.dataScadenza = dataScadenza;
-    }
-
     public Utente getUtente() {
         return utente;
     }
@@ -80,7 +68,6 @@ public abstract class Ticket {
                 "id=" + id +
                 ", idVenditore=" + idVenditore +
                 ", dataEmissione=" + dataEmissione +
-                ", dataScadenza=" + dataScadenza +
                 ", utente=" + utente +
                 '}';
     }

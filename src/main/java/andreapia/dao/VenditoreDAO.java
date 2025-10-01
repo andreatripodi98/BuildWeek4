@@ -48,10 +48,10 @@ public class VenditoreDAO {
             if (d == null){
                 throw new NotFoundException("Venditore non esistente");
             }
-            if (nuovoStatoDistributore == "Attivo"){
+            if (nuovoStatoDistributore.equals("Attivo")){
                 d.setStato(StatoDistributore.ATTIVO);
             }
-            else if (nuovoStatoDistributore == "Fuori Servizio"){
+            else if (nuovoStatoDistributore.equals("Fuori Servizio")){
                 d.setStato(StatoDistributore.FUORI_SERVIZIO);
             }
 

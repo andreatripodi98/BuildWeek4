@@ -32,7 +32,9 @@ public class TrattaDAO {
 
     public Tratta findById(UUID id_tratta) {
         Tratta found = em.find(Tratta.class, id_tratta);
-        if(found == null) throw new NotFoundException(id_tratta.toString());
+        if(found == null) {
+            throw new NotFoundException(id_tratta.toString());
+        }
         return found;
     }
 

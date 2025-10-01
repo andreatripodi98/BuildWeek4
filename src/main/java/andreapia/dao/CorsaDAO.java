@@ -31,28 +31,41 @@ public class CorsaDAO {
         }
     }
 
-    public Corsa findById(UUID id){
+    public Corsa findById(UUID id) {
 
         Corsa found = em.find(Corsa.class, id);
-        if(found == null) throw new NotFoundException(id.toString());
+        if (found == null) {
+            throw new NotFoundException(id.toString());
+        }
         return found;
     }
-//metodo per assegnare corsa
-    public void  assegnaCorsa(Tratta id, LocalDate inizioCorsa, LocalDate fineCorsa){
-        try{
+
+    //metodo per assegnare corsa
+    public void assegnaCorsa(Tratta TrattaId, UUID mezzoId, LocalDate inizioCorsa, LocalDate fineCorsa) {
+        try {
             EntityTransaction t = em.getTransaction();
             t.begin();
 //            recuperiamo tratta con id passato nel parametro
-            Tratta tratta = em.find(Tratta.class, id);
+            Tratta tratta = em.find(Tratta.class, TrattaId);
+            // Recuperiamo il Mezzo
+            Mezzi mezzo = em.find(Mezzi.class, mezzoId);
 //            se la tratta esiste salva corsa con i dati passati
-            if(tratta != null){
-                Corsa corsa = new Corsa(id, inizioCorsa,fineCorsa);
+            if (tratta != null && mezzo != null) {
+                Corsa corsa = new Corsa(tratta, mezzo, inizioCorsa, fineCorsa);
                 em.persist(corsa);
                 t.commit();
-                System.out.println("corsa assegnata alla tratta: " + id);
+                System.out.println("corsa assegnata alla tratta: " + TrattaId);
 //                altrimenti errore
-            }else System.out.println("errore");
-        }catch(Exception exception){
+            } else {
+                if (tratta == null) {
+                    System.out.println("Errore: Tratta con ID " + TrattaId + " non trovata.");
+                }
+                if (mezzo == null) {
+                    System.out.println("Errore: Mezzo con ID " + mezzoId + " non trovato.");
+                }
+                t.rollback();
+            }
+        } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
     }
