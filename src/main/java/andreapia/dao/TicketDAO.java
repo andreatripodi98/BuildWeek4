@@ -5,6 +5,7 @@ import andreapia.entities.Biglietti;
 import andreapia.entities.Ticket;
 import andreapia.entities.Venditore;
 import andreapia.exceptions.IdNotValidException;
+import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;

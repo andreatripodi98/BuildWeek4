@@ -37,7 +37,7 @@ public class Application {
         boolean continua = true;
 
         Utente utenteFromDB = utenteDAO.findById("e7084208-5639-4b0b-9980-c91ffa3437de");
-        Biglietti biglietti1 = new Biglietti(rivenditoreFromDb, LocalDate.now(), LocalDate.now().plusYears(1), utenteFromDB, true);
+        Biglietti biglietti1 = new Biglietti(rivenditoreFromDb, LocalDate.now(), utenteFromDB, true);
         ticketDAO.saveTicket(biglietti1);
 
         //RICERCA BIGLIETTI EMESSI IN UN DETERMINATO PERIODO
