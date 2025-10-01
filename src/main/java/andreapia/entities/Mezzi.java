@@ -5,7 +5,6 @@ import andreapia.enums.StatoMezzo;
 import andreapia.enums.TipoMezzo;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -29,19 +28,15 @@ public class Mezzi {
     @Column(name = "conto_biglietti_vidimati")
     private Long contoBigliettiVidimati;
 
-    @OneToOne
-    @JoinColumn(name = "id_tratta")
-    private Tratta tratta;
 
     public Mezzi() {
     }
 
-    public Mezzi(StatoMezzo stato, Capienza capienza, TipoMezzo tipoMezzo, Long contoBigliettiVidimati, Tratta tratta) {
+    public Mezzi(StatoMezzo stato, Capienza capienza, TipoMezzo tipoMezzo, Long contoBigliettiVidimati) {
         this.stato = stato;
         this.capienza = capienza;
         this.tipoMezzo = tipoMezzo;
         this.contoBigliettiVidimati = contoBigliettiVidimati;
-        this.tratta = tratta;
     }
 
 
@@ -81,13 +76,6 @@ public class Mezzi {
         this.contoBigliettiVidimati = contoBigliettiVidimati;
     }
 
-    public Tratta getTratta() {
-        return tratta;
-    }
-
-    public void setTratta(Tratta tratta) {
-        this.tratta = tratta;
-    }
 
     // Aggiungi un toString() per debugging (opzionale)
     @Override
@@ -98,7 +86,6 @@ public class Mezzi {
                 ", capienza=" + capienza +
                 ", tipoMezzo=" + tipoMezzo +
                 ", contoBigliettiVidimati=" + contoBigliettiVidimati +
-                ", tratta=" + (tratta != null ? tratta.getId_tratta() : "null") +
                 '}';
     }
 }
