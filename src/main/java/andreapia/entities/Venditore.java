@@ -12,7 +12,7 @@ public abstract class Venditore {
     @GeneratedValue
     private UUID id;
 
-    @Column (name = "tipo_rivenditore")
+    @Column(name = "tipo_rivenditore")
     private TipoRivenditore tipoRivenditore;
 
     public TipoRivenditore getTipoRivenditore() {
@@ -28,6 +28,14 @@ public abstract class Venditore {
     }
 
     public Venditore() {
+    }
+
+    @Override
+    public String toString() {
+        return "Venditore{" +
+                "id=" + id +
+                ", tipoRivenditore=" + tipoRivenditore +
+                '}';
     }
 
     public UUID getId() {

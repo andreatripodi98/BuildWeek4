@@ -29,7 +29,16 @@ public class Distributore extends Venditore {
     }
 
     public StatoDistributore getStato() {
+
         return stato;
+    }
+
+    @Override
+    public String toString() {
+        return "Distributore{" +
+                "id=" + id +
+                ", stato=" + stato +
+                '}';
     }
 
     public void setStato(StatoDistributore stato) {
