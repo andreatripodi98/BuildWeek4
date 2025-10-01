@@ -1,10 +1,8 @@
 package andreapia.dao;
 
 import andreapia.entities.Abbonamenti;
-import andreapia.entities.Biglietti;
 import andreapia.entities.Ticket;
 import andreapia.entities.Venditore;
-import andreapia.exceptions.IdNotValidException;
 import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -55,7 +53,7 @@ public class TicketDAO {
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            return 0L;
+            return null;
         }
     }
 
@@ -70,7 +68,7 @@ public class TicketDAO {
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            return 0L;
+            return null;
 
         }
     }
