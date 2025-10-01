@@ -21,19 +21,14 @@ public class Tessera {
     @JoinColumn(name = "id_utente")
     private Utente utente;
 
-    @OneToOne
-    @JoinColumn(name = "id_abbonamenti")
-    private Abbonamenti abbonamenti;
-
     public Tessera(){
         
     }
 
-    public Tessera(LocalDate dataEmissione, LocalDate dataScadenza, Utente utente, Abbonamenti abbonamenti) {
+    public Tessera(LocalDate dataEmissione, LocalDate dataScadenza, Utente utente) {
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataScadenza;
         this.utente = utente;
-        this.abbonamenti = abbonamenti;
     }
 
     public UUID getIdTessera() {
@@ -64,14 +59,6 @@ public class Tessera {
         this.utente = utente;
     }
 
-    public Abbonamenti getAbbonamenti() {
-        return abbonamenti;
-    }
-
-    public void setAbbonamenti(Abbonamenti abbonamenti) {
-        this.abbonamenti = abbonamenti;
-    }
-
     @Override
     public String toString() {
         return "Tessera{" +
@@ -79,7 +66,7 @@ public class Tessera {
                 ", dataEmissione=" + dataEmissione +
                 ", dataScadenza=" + dataScadenza +
                 ", utente=" + utente +
-                ", abbonamenti=" + abbonamenti +
+
                 '}';
     }
 }

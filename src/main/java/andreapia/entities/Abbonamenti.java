@@ -19,13 +19,23 @@ public class Abbonamenti extends Ticket {
     @Column(name = "data_scadenza", nullable = false)
     private LocalDate dataScadenza;
 
+    @OneToOne
+    @JoinColumn(name = "id_tessera")
+    private Tessera tessera;
+
     public Abbonamenti() {
     }
 
-    public Abbonamenti(Venditore idVenditore, LocalDate dataEmissione, LocalDate dataScadenza, Utente utente, TipoAbbonamento tipoAbbonamento) {
+    public Abbonamenti(Venditore idVenditore, LocalDate dataEmissione, LocalDate dataScadenza, Utente utente, TipoAbbonamento tipoAbbonamento, LocalDate dataScadenza1, Tessera tessera) {
         super(idVenditore, dataEmissione, dataScadenza, utente);
         this.tipoAbbonamento = tipoAbbonamento;
-        this.dataScadenza = dataScadenza;
+        this.dataScadenza = dataScadenza1;
+        this.tessera = tessera;
+    }
+
+    @Override
+    public UUID getId() {
+        return id;
     }
 
     public TipoAbbonamento getTipoAbbonamento() {
@@ -36,24 +46,31 @@ public class Abbonamenti extends Ticket {
         this.tipoAbbonamento = tipoAbbonamento;
     }
 
-    public LocalDate getDataDiScadenza() {
+    @Override
+    public LocalDate getDataScadenza() {
         return dataScadenza;
     }
 
-    public void setDataDiScadenza(LocalDate dataDiScadenza) {
-        this.dataScadenza = dataDiScadenza;
+    @Override
+    public void setDataScadenza(LocalDate dataScadenza) {
+        this.dataScadenza = dataScadenza;
     }
 
-    @Override
-    public UUID getId() {
-        return id;
+    public Tessera getTessera() {
+        return tessera;
+    }
+
+    public void setTessera(Tessera tessera) {
+        this.tessera = tessera;
     }
 
     @Override
     public String toString() {
         return "Abbonamenti{" +
-                "tipoAbbonamento=" + tipoAbbonamento +
-                ", dataDiScadenza=" + dataScadenza +
+                "id=" + id +
+                ", tipoAbbonamento=" + tipoAbbonamento +
+                ", dataScadenza=" + dataScadenza +
+                ", tessera=" + tessera +
                 "} " + super.toString();
     }
 }

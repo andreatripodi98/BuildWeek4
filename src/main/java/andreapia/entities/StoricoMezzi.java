@@ -21,14 +21,16 @@ public class StoricoMezzi {
     private LocalDate dataInizioManutenzione;
     @Column(name = "data_fine_manutenzione")
     private LocalDate dataFineManutenzione;
+    private String causaManutenzione;
 
     public StoricoMezzi() {
     }
 
-    public StoricoMezzi(Mezzi mezzo, LocalDate dataInizioManutenzione, LocalDate dataFineManutenzione) {
+    public StoricoMezzi(Mezzi mezzo, LocalDate dataInizioManutenzione, LocalDate dataFineManutenzione, String causaManutenzione) {
         this.mezzo = mezzo;
         this.dataInizioManutenzione = dataInizioManutenzione;
         this.dataFineManutenzione = dataFineManutenzione;
+        this.causaManutenzione = causaManutenzione;
     }
 
     public UUID getId() {
@@ -59,6 +61,14 @@ public class StoricoMezzi {
         this.dataFineManutenzione = dataFineManutenzione;
     }
 
+    public String getCausaManutenzione() {
+        return causaManutenzione;
+    }
+
+    public void setCausaManutenzione(String causaManutenzione) {
+        this.causaManutenzione = causaManutenzione;
+    }
+
     @Override
     public String toString() {
         return "StoricoMezzi{" +
@@ -66,6 +76,7 @@ public class StoricoMezzi {
                 ", mezzo=" + mezzo +
                 ", dataInizioManutenzione=" + dataInizioManutenzione +
                 ", dataFineManutenzione=" + dataFineManutenzione +
+                ", causaManutenzione='" + causaManutenzione + '\'' +
                 '}';
     }
 }

@@ -83,16 +83,17 @@ public class Application {
             System.out.println("premi 1 per amministratore");
             System.out.println("premi 2 per utente");
             int scelta3 = scanner.nextInt();
-            if(scelta3 == 1){
+            if(scelta3 == 1) {
                 System.out.println("inserisci la password");
                 scanner.nextLine();
                 String password = scanner.nextLine();
-                if (password.equals("admin123")){
+                if (password.equals("admin123")) {
                     System.out.println("controlla i biglietti venduti");
                 }
-            } else if () {
-
             }
+//           else if () {
+//
+//            }
         }
 
 
