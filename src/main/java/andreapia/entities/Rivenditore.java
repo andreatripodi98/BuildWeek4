@@ -1,5 +1,6 @@
 package andreapia.entities;
 
+import andreapia.enums.TipoRivenditore;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -15,6 +16,10 @@ public class Rivenditore extends Venditore {
     public Rivenditore() {
     }
 
+    public Rivenditore(TipoRivenditore tipoRivenditore) {
+        super(tipoRivenditore);
+    }
+
     @Override
     public UUID getId() {
         return id;
@@ -22,8 +27,7 @@ public class Rivenditore extends Venditore {
 
     @Override
     public String toString() {
-        return "Rivenditore{" +
-                "id=" + id +
-                '}';
+        return "Rivenditore: " +
+                " id= " + id;
     }
 }

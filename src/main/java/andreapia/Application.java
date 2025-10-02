@@ -1,10 +1,7 @@
 package andreapia;
 
 import andreapia.dao.*;
-import andreapia.entities.Distributore;
-import andreapia.entities.Rivenditore;
-import andreapia.entities.Utente;
-import andreapia.entities.Venditore;
+import andreapia.entities.*;
 import andreapia.enums.StatoDistributore;
 import andreapia.enums.TipoRivenditore;
 import andreapia.enums.TipoUtente;
@@ -12,6 +9,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,10 +30,10 @@ public class Application {
         TrattaDAO trattaDAO = new TrattaDAO(em);
         CorsaDAO corsaDAO = new CorsaDAO(em);
         TicketDAO ticketDAO = new TicketDAO(em);
-        Rivenditore rivenditore1 = new Rivenditore();
-        Rivenditore rivenditore2 = new Rivenditore();
-        Distributore distributore1 = new Distributore(StatoDistributore.ATTIVO);
-        Distributore distributore2 = new Distributore(StatoDistributore.FUORI_SERVIZIO);
+        Rivenditore rivenditore1 = new Rivenditore(TipoRivenditore.RIVENDITORE);
+        Rivenditore rivenditore2 = new Rivenditore(TipoRivenditore.RIVENDITORE);
+        Distributore distributore1 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.ATTIVO);
+        Distributore distributore2 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.FUORI_SERVIZIO);
         venditoreDAO.saveVenditore(rivenditore1);
         venditoreDAO.saveVenditore(rivenditore2);
         venditoreDAO.saveVenditore(distributore1);
@@ -44,7 +42,7 @@ public class Application {
 
         boolean continua = true;
 
-        //-----------------------------------TEST INSERIMENTO UTENTI-------------------------------
+        //-----------------------------------INIZIO PROGRAMMA-------------------------------
         while (continua) {
             System.out.println("Cosa vuoi fare?");
             System.out.println("Premi 1 per creare un utente");
@@ -55,7 +53,7 @@ public class Application {
                 case 0:
                     continua = false;
                     System.out.println("programma terminato");
-
+//-----------------------------------INSERIMENTO UTENTI-------------------------------
                 case 1:
                     System.out.println("inserisci nome");
                     scanner.nextLine();
@@ -85,6 +83,7 @@ public class Application {
                     }
                     break;
                 case 2:
+                    //-----------------------------------SCELTA UTENTE-------------------------------
                     while (continua) {
                         System.out.println("scegli utente: ");
                         System.out.println("premi 1 per amministratore");
@@ -118,6 +117,7 @@ public class Application {
                             int scelta5 = scanner.nextInt();
                             Utente utenteScelto = listaUtenti.get(scelta5 - 1);
                             System.out.println("Utente selezionato: " + utenteScelto);
+                            //-----------------------------------OPZIONI UTENTE-------------------------------
                             System.out.println("Cosa vuoi fare?!");
                             System.out.println("premi 1 per acquistare un biglietto");
                             System.out.println("premi 2 per acquistare un abbonamento");
@@ -126,25 +126,42 @@ public class Application {
                             int scelta6 = scanner.nextInt();
                             switch (scelta6) {
                                 case 1:
+                                    //-----------------------------------ACQUISTA BIGLIETTO-------------------------------
                                     System.out.println("Da dove vuoi acquistare il biglietto?");
                                     System.out.println("Premi 1 per distributore automatico");
                                     System.out.println("Premi 2 per rivenditore autorizzato");
                                     int scelta7 = scanner.nextInt();
+                                    //-----------------------------------DISTRIBUTORE-------------------------------
                                     if (scelta7 == 1) {
                                         List<Venditore> listaDistributori = venditoreDAO.findByTipoVenditore(TipoRivenditore.DISTRIBUTORE);
                                         int conteggio2 = 1;
+                                        System.out.println("Seleziona il distributore");
                                         for (Venditore venditore : listaDistributori) {
-                                            System.out.println(conteggio2 + ": " + listaDistributori);
+                                            System.out.println(conteggio2 + ": " + venditore);
                                             conteggio2++;
                                         }
                                         int scelta8 = scanner.nextInt();
                                         Venditore distributoreScelto = listaDistributori.get(scelta8 - 1);
                                         System.out.println("Distributore selezionato: " + distributoreScelto);
+                                        if (distributoreScelto instanceof Distributore) {
+                                            Enum scelta9 = ((Distributore) distributoreScelto).getStato();
+                                            if (scelta9 == StatoDistributore.FUORI_SERVIZIO) {
+                                                System.out.println("Il distributore è fuori servizio! Non puoi acquistare il biglietto!");
+                                                System.out.println("Seleziona un altro distributore");
+                                            } else {
+                                                Biglietti biglietto = new Biglietti(distributoreScelto, LocalDate.now(), utenteScelto, false);
+                                                ticketDAO.saveTicket(biglietto);
+                                                System.out.println("Biglietto acquistato: " + biglietto.getId());
+                                            }
+                                        }
 
 
-                                    } else if (scelta7 == 2) {
+                                    }
+                                    //-----------------------------------VENDITORE-------------------------------
+                                    else if (scelta7 == 2) {
                                         List<Venditore> listaRiuenditori = venditoreDAO.findByTipoVenditore(TipoRivenditore.RIVENDITORE);
                                         int conteggio3 = 1;
+                                        System.out.println("Seleziona il venditore");
                                         for (Venditore venditore : listaRiuenditori) {
                                             System.out.println(conteggio3 + ": " + venditore);
                                             conteggio3++;

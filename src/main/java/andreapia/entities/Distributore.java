@@ -1,6 +1,7 @@
 package andreapia.entities;
 
 import andreapia.enums.StatoDistributore;
+import andreapia.enums.TipoRivenditore;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -19,7 +20,8 @@ public class Distributore extends Venditore {
     public Distributore() {
     }
 
-    public Distributore(StatoDistributore stato) {
+    public Distributore(TipoRivenditore tipoRivenditore, StatoDistributore stato) {
+        super(tipoRivenditore);
         this.stato = stato;
     }
 
@@ -35,13 +37,13 @@ public class Distributore extends Venditore {
 
     @Override
     public String toString() {
-        return "Distributore{" +
-                "id=" + id +
-                ", stato=" + stato +
-                '}';
+        return "Distributore: " +
+                " id= " + id +
+                ", stato= " + stato;
     }
 
     public void setStato(StatoDistributore stato) {
+
         this.stato = stato;
     }
 }

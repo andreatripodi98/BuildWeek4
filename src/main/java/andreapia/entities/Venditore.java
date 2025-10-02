@@ -12,18 +12,22 @@ public abstract class Venditore {
     @GeneratedValue
     private UUID id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_rivenditore")
     private TipoRivenditore tipoRivenditore;
 
     public TipoRivenditore getTipoRivenditore() {
+
         return tipoRivenditore;
     }
 
     public void setTipoRivenditore(TipoRivenditore tipoRivenditore) {
+
         this.tipoRivenditore = tipoRivenditore;
     }
 
     public Venditore(TipoRivenditore tipoRivenditore) {
+
         this.tipoRivenditore = tipoRivenditore;
     }
 
@@ -32,10 +36,9 @@ public abstract class Venditore {
 
     @Override
     public String toString() {
-        return "Venditore{" +
-                "id=" + id +
-                ", tipoRivenditore=" + tipoRivenditore +
-                '}';
+        return "Venditore: " +
+                " id= " + id +
+                ", tipoRivenditore=" + tipoRivenditore;
     }
 
     public UUID getId() {
