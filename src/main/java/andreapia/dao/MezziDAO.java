@@ -2,7 +2,6 @@ package andreapia.dao;
 
 import andreapia.entities.Mezzi;
 import andreapia.entities.StoricoMezzi;
-import andreapia.entities.Venditore;
 import andreapia.enums.StatoMezzo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -39,22 +38,6 @@ public class MezziDAO {
         return em.find(Mezzi.class, id);
     }
 
-    // Metodo setStatoMezzo passiamo l'id del mezzo e l'enum StatoMezzo
-    public void setStatoMezzo(Mezzi mezzoId, StatoMezzo nuovoStato) {
-        try {
-            EntityTransaction t = em.getTransaction();
-            t.begin();
-            UUID mezzoUUID = mezzoId.getId();
-            Mezzi mezzo = em.find(Mezzi.class, mezzoUUID);
-                mezzo.setStato(nuovoStato);
-                t.commit();
-                System.out.println("Stato del mezzo " + mezzoId.getId() + " aggiornato a: " + nuovoStato);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-
-        }
-    }
-
     // Metodo periodoManutenzione passiamo l'id del mezzo, la data inizio, la data fine, e la causa della manutenzione
     public void periodoManutenzione(UUID mezzoId, LocalDate inizio, LocalDate fine, String causa) {
         try {
@@ -81,11 +64,11 @@ public class MezziDAO {
     // Metodo contaBigliettiVidimati passiamo l'id del mezzo.
     // Facciamo la query dove facciamo la conta dei bigliettividimati dove l'id_mezzo (tabella BigliettiVidimati)
     // è uguale all'id del mezzo che abbiamo passato.
-    public long contaBigliettiVidimati(UUID mezzoId) {
+    public long contaBigliettiVidimati(Mezzi mezzoId) {
         try {
             // JPQL per contare i biglietti vidimati associati a un mezzo specifico
             Long conteggio = em.createQuery(
-                            "SELECT COUNT(bv) FROM BigliettiVidimati bv WHERE bv.mezzo.id = :idMezzo", Long.class)
+                            "SELECT COUNT (bv) FROM BigliettiVidimati bv WHERE bv.id_mezzo = :idMezzo", Long.class)
                     .setParameter("idMezzo", mezzoId)
                     .getSingleResult();
             System.out.println("Biglietti vidimati trovati per Mezzo " + mezzoId + ": " + conteggio);
@@ -99,14 +82,14 @@ public class MezziDAO {
         }
     }
 
-    public long contaCorsePercorseDaMezzo(UUID mezzoId) {
+    public long contaCorsePercorseDaMezzo(Mezzi mezzoId) {
         try {
             // Query per contare le corse di un mezzo tra le tabelle corsa e mezzo
             Long conteggio = em.createQuery(
-                            "SELECT COUNT(c) FROM Corsa c WHERE c.mezzo.id = :idMezzo", Long.class)
+                            "SELECT COUNT(c) FROM Corsa c WHERE c.mezzo = :idMezzo", Long.class)
                     .setParameter("idMezzo", mezzoId)
                     .getSingleResult();
-            System.out.println("Numero totale di corse percorse dal Mezzo " + mezzoId + ": " + conteggio);
+            System.out.println("Numero totale di corse percorse dal Mezzo " + mezzoId.getId() + ": " + conteggio);
             return conteggio;
         } catch (NoResultException e) {
             // Se non ci sono corse per quel mezzo restituisce 0

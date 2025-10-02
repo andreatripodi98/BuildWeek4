@@ -7,7 +7,7 @@ import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 public class CorsaDAO {
@@ -41,7 +41,7 @@ public class CorsaDAO {
     }
 
     //metodo per assegnare corsa
-    public void assegnaCorsa(Tratta TrattaId, UUID mezzoId, LocalDate inizioCorsa, LocalDate fineCorsa) {
+    public void assegnaCorsa(Tratta TrattaId, UUID mezzoId, LocalTime inizioCorsa, LocalTime fineCorsa) {
         try {
             EntityTransaction t = em.getTransaction();
             t.begin();

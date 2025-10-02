@@ -68,11 +68,10 @@ public class Mezzi {
     // Aggiungi un toString() per debugging (opzionale)
     @Override
     public String toString() {
-        return "Mezzi{" +
-                "id=" + id_mezzi +
+        return "Mezzi: " +
+                " id= " + id_mezzi +
                 ", stato=" + stato +
-                ", capienza=" + capienza +
-                ", tipoMezzo=" + tipoMezzo +
-                '}';
+                ", capienza= " + capienza +
+                ", tipoMezzo= " + tipoMezzo;
     }
 }

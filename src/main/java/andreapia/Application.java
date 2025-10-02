@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
@@ -41,10 +42,12 @@ public class Application {
         mezziDAO.saveMezzo(mezzo1);
         Mezzi mezzo2 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.TRAM, TipoMezzo.TRAM);
         mezziDAO.saveMezzo(mezzo2);
-        Tratta tratta1 = new Tratta("Termini", "Colosseo", 1, mezzo1);
+        Tratta tratta1 = new Tratta("Termini", "Cinecittà", 1, mezzo1);
         trattaDAO.saveTratta(tratta1);
         Tratta tratta2 = new Tratta("Termini", "San Pietro", 2, mezzo2);
-//        trattaDAO.saveTratta(tratta2);
+        Corsa corsa1 = new Corsa(tratta1, mezzo1, LocalTime.now(), LocalTime.now().plusHours(2));
+        corsaDAO.saveCorsa(corsa1);
+        trattaDAO.saveTratta(tratta2);
 //        Utente utenteFromDb = utenteDAO.findById("357e4dc1-5070-4bf6-ae5c-b4ddc750a7ec");
 //        Tessera tesseraFromDb = tesseraDAO.findById("6ed61ce2-b08a-4d23-bcbd-499bbb4ab04d");
 //        Abbonamenti abbonamentoScaduto = new Abbonamenti(rivenditore1, LocalDate.now(), utenteFromDb, TipoAbbonamento.MENSILE, LocalDate.of(2025, 10, 1), tesseraFromDb);
@@ -170,240 +173,260 @@ public class Application {
                                         conteggio5++;
                                     }
                                     int scelta21 = scanner.nextInt();
-                                    Mezzi mezzoScelto = listaMezzi.get(scelta21 -1);
+                                    Mezzi mezzoScelto = listaMezzi.get(scelta21 - 1);
                                     System.out.println("Il mezzo selezionato è: " + mezzoScelto);
                                     System.out.println("Cosa vuoi fare?");
                                     System.out.println("1 Setta lo stato del mezzo(IN MANUTENZIONE)");
                                     System.out.println("2 Controlla i periodi di manutenzione");
                                     System.out.println("3 Controlla biglietti vidimati sul mezzo");
                                     System.out.println("4 Controlla biglietti vidimati sul mezzo per periodo di tempo");
+                                    System.out.println("4 Controlla biglietti vidimati sul mezzo per periodo di tempo");
+                                    System.out.println("5 Controlla i numero totale delle corse percorse per mezzo ");
                                     int scelta22 = scanner.nextInt();
                                     switch (scelta22) {
-                                        case 1: mezziDAO.setStatoMezzo(mezzoScelto, StatoMezzo.IN_MANUTENZIONE);
-                                }
+                                        //-----------------------------------SET STATO MEZZO IN MANUTENZIONE-------------------------------
+                                        case 1:
+                                            LocalDate dataInizio = LocalDate.now();
+                                            LocalDate dataFine = LocalDate.now().plusMonths(3);
+                                            mezziDAO.periodoManutenzione(mezzoScelto.getId(), dataInizio, dataFine, "Problemi al motore");
+                                            break;
+                                        case 2:
+                                            //DA FARE METODO
+                                            break;
+                                        case 3:
+                                            mezziDAO.contaBigliettiVidimati(mezzoScelto);
+                                            break;
+                                        case 4:
+                                            //DA FARE METODO
+                                            break;
+                                        case 5:
+                                            mezziDAO.contaCorsePercorseDaMezzo(mezzoScelto);
+                                            break;
+                                    }
 
-                            } else if (scelta3 == 2) {
-                                int conteggio1 = 1;
-                                System.out.println("Quale utente sei?");
-                                List<Utente> listaUtenti = utenteDAO.findByTipoUtente(TipoUtente.UTENTE);
-                                for (Utente utente : listaUtenti) {
-                                    System.out.println(conteggio1 + ": " + utente);
-                                    conteggio1++;
-                                }
-                                int scelta5 = scanner.nextInt();
-                                Utente utenteScelto = listaUtenti.get(scelta5 - 1);
-                                System.out.println("Utente selezionato: " + utenteScelto);
-                                //-----------------------------------OPZIONI UTENTE-------------------------------
-                                System.out.println("Cosa vuoi fare?!");
-                                System.out.println("premi 1 per acquistare un biglietto");
-                                System.out.println("premi 2 per acquistare un abbonamento");
-                                System.out.println("premi 3 se hai gia un biglietto o un abbonamento");
-                                int scelta6 = scanner.nextInt();
+                                } else if (scelta3 == 2) {
+                                    int conteggio1 = 1;
+                                    System.out.println("Quale utente sei?");
+                                    List<Utente> listaUtenti = utenteDAO.findByTipoUtente(TipoUtente.UTENTE);
+                                    for (Utente utente : listaUtenti) {
+                                        System.out.println(conteggio1 + ": " + utente);
+                                        conteggio1++;
+                                    }
+                                    int scelta5 = scanner.nextInt();
+                                    Utente utenteScelto = listaUtenti.get(scelta5 - 1);
+                                    System.out.println("Utente selezionato: " + utenteScelto);
+                                    //-----------------------------------OPZIONI UTENTE-------------------------------
+                                    System.out.println("Cosa vuoi fare?!");
+                                    System.out.println("premi 1 per acquistare un biglietto");
+                                    System.out.println("premi 2 per acquistare un abbonamento");
+                                    System.out.println("premi 3 se hai gia un biglietto o un abbonamento");
+                                    int scelta6 = scanner.nextInt();
 
 
-                                switch (scelta6) {
-                                    case 1:
-                                        //-----------------------------------ACQUISTA BIGLIETTO-------------------------------
-                                        System.out.println("Da dove vuoi acquistare il biglietto?");
-                                        System.out.println("Premi 1 per distributore automatico");
-                                        System.out.println("Premi 2 per rivenditore autorizzato");
-                                        int scelta7 = scanner.nextInt();
-                                        //-----------------------------------DISTRIBUTORE-------------------------------
-                                        if (scelta7 == 1) {
-                                            List<Venditore> listaDistributori = venditoreDAO.findByTipoVenditore(TipoRivenditore.DISTRIBUTORE);
-                                            int conteggio2 = 1;
-                                            System.out.println("Seleziona il distributore");
-                                            for (Venditore venditore : listaDistributori) {
-                                                System.out.println(conteggio2 + ": " + venditore);
-                                                conteggio2++;
-                                            }
-                                            int scelta8 = scanner.nextInt();
-                                            Venditore distributoreScelto = listaDistributori.get(scelta8 - 1);
-                                            System.out.println("Distributore selezionato: " + distributoreScelto);
-                                            if (distributoreScelto instanceof Distributore) {
-                                                Enum scelta9 = ((Distributore) distributoreScelto).getStato();
-                                                if (scelta9 == StatoDistributore.FUORI_SERVIZIO) {
-                                                    System.out.println("Il distributore è fuori servizio! Non puoi acquistare il biglietto!");
-                                                    System.out.println("Seleziona un altro distributore");
-                                                } else {
-                                                    Biglietti biglietto = new Biglietti(distributoreScelto, LocalDate.now(), utenteScelto, false);
-                                                    ticketDAO.saveTicket(biglietto);
-                                                    System.out.println("Biglietto acquistato: " + biglietto.getId());
+                                    switch (scelta6) {
+                                        case 1:
+                                            //-----------------------------------ACQUISTA BIGLIETTO-------------------------------
+                                            System.out.println("Da dove vuoi acquistare il biglietto?");
+                                            System.out.println("Premi 1 per distributore automatico");
+                                            System.out.println("Premi 2 per rivenditore autorizzato");
+                                            int scelta7 = scanner.nextInt();
+                                            //-----------------------------------DISTRIBUTORE-------------------------------
+                                            if (scelta7 == 1) {
+                                                List<Venditore> listaDistributori = venditoreDAO.findByTipoVenditore(TipoRivenditore.DISTRIBUTORE);
+                                                int conteggio2 = 1;
+                                                System.out.println("Seleziona il distributore");
+                                                for (Venditore venditore : listaDistributori) {
+                                                    System.out.println(conteggio2 + ": " + venditore);
+                                                    conteggio2++;
                                                 }
-                                            }
-                                        }
-                                        //-----------------------------------VENDITORE-------------------------------
-                                        else if (scelta7 == 2) {
-                                            List<Venditore> listaRiuenditori = venditoreDAO.findByTipoVenditore(TipoRivenditore.RIVENDITORE);
-                                            int conteggio3 = 1;
-                                            System.out.println("Seleziona il venditore");
-                                            for (Venditore venditore : listaRiuenditori) {
-                                                System.out.println(conteggio3 + ": " + venditore);
-                                                conteggio3++;
-                                            }
-                                            int scelta10 = scanner.nextInt();
-                                            Venditore vendireScelto = listaRiuenditori.get(scelta10 - 1);
-                                            System.out.println("Venditore selezionato: " + vendireScelto);
-                                            Biglietti biglietto = new Biglietti(vendireScelto, LocalDate.now(), utenteScelto, false);
-                                            ticketDAO.saveTicket(biglietto);
-                                            System.out.println("Biglietto acquistato: " + biglietto.getId());
-                                        } else {
-                                            System.out.println("Scelta non valida scegli tra 1 e 2");
-                                        }
-                                        break;
-                                    case 2:
-                                        //-----------------------------------ACQUISTA ABBONAMENTO-------------------------------
-                                        System.out.println("Da dove vuoi acquistare l'abbonamento?");
-                                        System.out.println("Premi 1 per distributore automatico");
-                                        System.out.println("Premi 2 per rivenditore autorizzato");
-                                        int scelta11 = scanner.nextInt();
-                                        //-----------------------------------ACQUISTA ABBONAMENTO DISTRIBUTORE-------------------------------
-                                        if (scelta11 == 1) {
-                                            List<Venditore> listaDistributori = venditoreDAO.findByTipoVenditore(TipoRivenditore.DISTRIBUTORE);
-                                            int conteggio8 = 1;
-                                            System.out.println("Seleziona il distributore");
-                                            for (Venditore venditore : listaDistributori) {
-                                                System.out.println(conteggio8 + ": " + venditore);
-                                                conteggio8++;
-                                            }
-                                            int scelta12 = scanner.nextInt();
-                                            Venditore distributoreScelto = listaDistributori.get(scelta12 - 1);
-                                            System.out.println("Distributore selezionato: " + distributoreScelto);
-                                            if (distributoreScelto instanceof Distributore) {
-                                                Enum scelta13 = ((Distributore) distributoreScelto).getStato();
-                                                if (scelta13 == StatoDistributore.FUORI_SERVIZIO) {
-                                                    System.out.println("Il distributore è fuori servizio! Non puoi acquistare il biglietto!");
-                                                    System.out.println("Seleziona un altro distributore");
-                                                } else {
-                                                    System.out.println("Scegli il tipo di abbonamento");
-                                                    System.out.println("1 Abbonamento Mensile");
-                                                    System.out.println("2 Abbonamento Settimanale");
-                                                    int scelta14 = scanner.nextInt();
-                                                    if (scelta14 == 1) {
-                                                        Abbonamenti abbonamento = new Abbonamenti(distributoreScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.MENSILE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
-                                                        ticketDAO.saveTicket(abbonamento);
-                                                        System.out.println("Abbonamento mensile acquistato: " + abbonamento.getId());
-                                                    } else if (scelta14 == 2) {
-                                                        Abbonamenti abbonamento = new Abbonamenti(distributoreScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.SETTIMANALE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
-                                                        ticketDAO.saveTicket(abbonamento);
-                                                        System.out.println("Abbonamento settimanale acquistato: " + abbonamento.getId());
+                                                int scelta8 = scanner.nextInt();
+                                                Venditore distributoreScelto = listaDistributori.get(scelta8 - 1);
+                                                System.out.println("Distributore selezionato: " + distributoreScelto);
+                                                if (distributoreScelto instanceof Distributore) {
+                                                    Enum scelta9 = ((Distributore) distributoreScelto).getStato();
+                                                    if (scelta9 == StatoDistributore.FUORI_SERVIZIO) {
+                                                        System.out.println("Il distributore è fuori servizio! Non puoi acquistare il biglietto!");
+                                                        System.out.println("Seleziona un altro distributore");
                                                     } else {
-                                                        System.out.println("Scelta non valida scegli tra 1 e 2");
+                                                        Biglietti biglietto = new Biglietti(distributoreScelto, LocalDate.now(), utenteScelto, false);
+                                                        ticketDAO.saveTicket(biglietto);
+                                                        System.out.println("Biglietto acquistato: " + biglietto.getId());
                                                     }
                                                 }
                                             }
-                                            //-----------------------------------ACQUISTA ABBONAMENTO RIVENDITORE-------------------------------
-                                        } else if (scelta11 == 2) {
-                                            List<Venditore> listaRiuenditori = venditoreDAO.findByTipoVenditore(TipoRivenditore.RIVENDITORE);
-                                            int conteggio9 = 1;
-                                            System.out.println("Seleziona il venditore");
-                                            for (Venditore venditore : listaRiuenditori) {
-                                                System.out.println(conteggio9 + ": " + venditore);
-                                                conteggio9++;
-                                            }
-                                            int scelta15 = scanner.nextInt();
-                                            Venditore vendireScelto = listaRiuenditori.get(scelta15 - 1);
-                                            System.out.println("Venditore selezionato: " + vendireScelto);
-                                            System.out.println("Scegli il tipo di abbonamento");
-                                            System.out.println("1 Abbonamento Mensile");
-                                            System.out.println("2 Abbonamento Settimanale");
-                                            int scelta14 = scanner.nextInt();
-                                            if (scelta14 == 1) {
-                                                Abbonamenti abbonamento = new Abbonamenti(vendireScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.MENSILE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
-                                                ticketDAO.saveTicket(abbonamento);
-                                                System.out.println("Abbonamento mensile acquistato: " + abbonamento.getId());
-                                            } else if (scelta14 == 2) {
-                                                Abbonamenti abbonamento = new Abbonamenti(vendireScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.SETTIMANALE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
-                                                ticketDAO.saveTicket(abbonamento);
-                                                System.out.println("Abbonamento settimanale acquistato: " + abbonamento.getId());
+                                            //-----------------------------------VENDITORE-------------------------------
+                                            else if (scelta7 == 2) {
+                                                List<Venditore> listaRiuenditori = venditoreDAO.findByTipoVenditore(TipoRivenditore.RIVENDITORE);
+                                                int conteggio3 = 1;
+                                                System.out.println("Seleziona il venditore");
+                                                for (Venditore venditore : listaRiuenditori) {
+                                                    System.out.println(conteggio3 + ": " + venditore);
+                                                    conteggio3++;
+                                                }
+                                                int scelta10 = scanner.nextInt();
+                                                Venditore vendireScelto = listaRiuenditori.get(scelta10 - 1);
+                                                System.out.println("Venditore selezionato: " + vendireScelto);
+                                                Biglietti biglietto = new Biglietti(vendireScelto, LocalDate.now(), utenteScelto, false);
+                                                ticketDAO.saveTicket(biglietto);
+                                                System.out.println("Biglietto acquistato: " + biglietto.getId());
                                             } else {
                                                 System.out.println("Scelta non valida scegli tra 1 e 2");
                                             }
+                                            break;
+                                        case 2:
+                                            //-----------------------------------ACQUISTA ABBONAMENTO-------------------------------
+                                            System.out.println("Da dove vuoi acquistare l'abbonamento?");
+                                            System.out.println("Premi 1 per distributore automatico");
+                                            System.out.println("Premi 2 per rivenditore autorizzato");
+                                            int scelta11 = scanner.nextInt();
+                                            //-----------------------------------ACQUISTA ABBONAMENTO DISTRIBUTORE-------------------------------
+                                            if (scelta11 == 1) {
+                                                List<Venditore> listaDistributori = venditoreDAO.findByTipoVenditore(TipoRivenditore.DISTRIBUTORE);
+                                                int conteggio8 = 1;
+                                                System.out.println("Seleziona il distributore");
+                                                for (Venditore venditore : listaDistributori) {
+                                                    System.out.println(conteggio8 + ": " + venditore);
+                                                    conteggio8++;
+                                                }
+                                                int scelta12 = scanner.nextInt();
+                                                Venditore distributoreScelto = listaDistributori.get(scelta12 - 1);
+                                                System.out.println("Distributore selezionato: " + distributoreScelto);
+                                                if (distributoreScelto instanceof Distributore) {
+                                                    Enum scelta13 = ((Distributore) distributoreScelto).getStato();
+                                                    if (scelta13 == StatoDistributore.FUORI_SERVIZIO) {
+                                                        System.out.println("Il distributore è fuori servizio! Non puoi acquistare il biglietto!");
+                                                        System.out.println("Seleziona un altro distributore");
+                                                    } else {
+                                                        System.out.println("Scegli il tipo di abbonamento");
+                                                        System.out.println("1 Abbonamento Mensile");
+                                                        System.out.println("2 Abbonamento Settimanale");
+                                                        int scelta14 = scanner.nextInt();
+                                                        if (scelta14 == 1) {
+                                                            Abbonamenti abbonamento = new Abbonamenti(distributoreScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.MENSILE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
+                                                            ticketDAO.saveTicket(abbonamento);
+                                                            System.out.println("Abbonamento mensile acquistato: " + abbonamento.getId());
+                                                        } else if (scelta14 == 2) {
+                                                            Abbonamenti abbonamento = new Abbonamenti(distributoreScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.SETTIMANALE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
+                                                            ticketDAO.saveTicket(abbonamento);
+                                                            System.out.println("Abbonamento settimanale acquistato: " + abbonamento.getId());
+                                                        } else {
+                                                            System.out.println("Scelta non valida scegli tra 1 e 2");
+                                                        }
+                                                    }
+                                                }
+                                                //-----------------------------------ACQUISTA ABBONAMENTO RIVENDITORE-------------------------------
+                                            } else if (scelta11 == 2) {
+                                                List<Venditore> listaRiuenditori = venditoreDAO.findByTipoVenditore(TipoRivenditore.RIVENDITORE);
+                                                int conteggio9 = 1;
+                                                System.out.println("Seleziona il venditore");
+                                                for (Venditore venditore : listaRiuenditori) {
+                                                    System.out.println(conteggio9 + ": " + venditore);
+                                                    conteggio9++;
+                                                }
+                                                int scelta15 = scanner.nextInt();
+                                                Venditore vendireScelto = listaRiuenditori.get(scelta15 - 1);
+                                                System.out.println("Venditore selezionato: " + vendireScelto);
+                                                System.out.println("Scegli il tipo di abbonamento");
+                                                System.out.println("1 Abbonamento Mensile");
+                                                System.out.println("2 Abbonamento Settimanale");
+                                                int scelta14 = scanner.nextInt();
+                                                if (scelta14 == 1) {
+                                                    Abbonamenti abbonamento = new Abbonamenti(vendireScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.MENSILE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
+                                                    ticketDAO.saveTicket(abbonamento);
+                                                    System.out.println("Abbonamento mensile acquistato: " + abbonamento.getId());
+                                                } else if (scelta14 == 2) {
+                                                    Abbonamenti abbonamento = new Abbonamenti(vendireScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.SETTIMANALE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
+                                                    ticketDAO.saveTicket(abbonamento);
+                                                    System.out.println("Abbonamento settimanale acquistato: " + abbonamento.getId());
+                                                } else {
+                                                    System.out.println("Scelta non valida scegli tra 1 e 2");
+                                                }
 
-                                        } else {
-                                            System.out.println("Scelta non valida scegli tra 1 e 2");
-                                        }
-                                        break;
-                                    case 3:
-                                        break;
+                                            } else {
+                                                System.out.println("Scelta non valida scegli tra 1 e 2");
+                                            }
+                                            break;
+                                        case 3:
+                                            break;
 
 
-                                }
-                                //-----------------------------------SCEGLI IL MEZZO-------------------------------
-
-                                System.out.println("Scegli il mezzo");
-                                System.out.println("1 Autobus");
-                                System.out.println("2 Tram");
-                                int scelta17 = scanner.nextInt();
-                                Tratta trattaScelta = null;
-                                if (scelta17 == 1) {
-                                    List<Tratta> listaTratte = trattaDAO.listaDiTratte(TipoMezzo.AUTOBUS);
-                                    int conteggio10 = 1;
-                                    //-----------------------------------SCEGLI TRATTA-------------------------------
-
-                                    System.out.println("Seleziona la tratta ");
-                                    for (Tratta tratta : listaTratte) {
-                                        System.out.println(conteggio10 + ": " + tratta.getZona_di_partenza() + " " + tratta.getCapolinea());
-                                        conteggio10++;
                                     }
-                                    int scelta16 = scanner.nextInt();
-                                    trattaScelta = listaTratte.get(scelta16 - 1);
-                                    System.out.println("Tratta selezionata: " + trattaScelta.getZona_di_partenza() + " " + trattaScelta.getCapolinea());
+                                    //-----------------------------------SCEGLI IL MEZZO-------------------------------
 
+                                    System.out.println("Scegli il mezzo");
+                                    System.out.println("1 Autobus");
+                                    System.out.println("2 Tram");
+                                    int scelta17 = scanner.nextInt();
+                                    Tratta trattaScelta = null;
+                                    if (scelta17 == 1) {
+                                        List<Tratta> listaTratte = trattaDAO.listaDiTratte(TipoMezzo.AUTOBUS);
+                                        int conteggio10 = 1;
+                                        //-----------------------------------SCEGLI TRATTA-------------------------------
 
-                                } else if (scelta17 == 2) {
-                                    List<Tratta> listaTratte = trattaDAO.listaDiTratte(TipoMezzo.TRAM);
-                                    int conteggio11 = 1;
-                                    System.out.println("Seleziona la tratta ");
-                                    for (Tratta tratta : listaTratte) {
-                                        System.out.println(conteggio11 + ": " + tratta.getZona_di_partenza() + " - " + tratta.getCapolinea());
-                                        conteggio11++;
-                                    }
-                                    int scelta16 = scanner.nextInt();
-                                    trattaScelta = listaTratte.get(scelta16 - 1);
-                                    System.out.println("Tratta selezionata: " + trattaScelta.getZona_di_partenza() + " - " + trattaScelta.getCapolinea());
-                                }
-                                List<Ticket> listaTicket = utenteDAO.findTicketByUtente(utenteScelto);
-                                if (!listaTicket.isEmpty()) {
-                                    if (listaTicket.stream().anyMatch(t -> t instanceof Abbonamenti)) {
-                                        System.out.println("Hai un abbonamento: " + listaTicket.getFirst());
-                                        Ticket abbonamentoSalvato = listaTicket.getFirst();
-                                        LocalDate dataDiScadenza = ticketDAO.getDataScadenza(abbonamentoSalvato);
-                                        System.out.println(dataDiScadenza);
-                                        LocalDate dataOdierna = LocalDate.now();
-                                        if (dataDiScadenza != null && dataDiScadenza.isBefore(dataOdierna)) {
-                                            System.out.println("Abbonamento scaduto in data: " + dataDiScadenza);
-                                            System.out.println("Rinnovo effettuato");
-                                            ticketDAO.rinnovaAbbonamento(abbonamentoSalvato);
-                                        } else {
-                                            System.out.println("Hai l'abbonamento e puoi salire nel mezzo");
+                                        System.out.println("Seleziona la tratta ");
+                                        for (Tratta tratta : listaTratte) {
+                                            System.out.println(conteggio10 + ": " + tratta.getZona_di_partenza() + " " + tratta.getCapolinea());
+                                            conteggio10++;
                                         }
-                                    } else if (listaTicket.stream().anyMatch(t -> t instanceof Biglietti)) {
-                                        System.out.println("Hai un biglietto: " + listaTicket.getFirst());
-                                        Ticket bigliettoSalvato = listaTicket.getFirst();
+                                        int scelta16 = scanner.nextInt();
+                                        trattaScelta = listaTratte.get(scelta16 - 1);
+                                        System.out.println("Tratta selezionata: " + trattaScelta.getZona_di_partenza() + " " + trattaScelta.getCapolinea());
 
-                                        if (ticketDAO.getStatoBiglietto(bigliettoSalvato) == true) {
-                                            System.out.println("non puoi salire il biglietto è gia stato vidimato");
 
-                                        } else {
-                                            ticketDAO.setStatoBiglietto(bigliettoSalvato, true);
-                                            System.out.println("Biglietto validato e puoi salire nel mezzo");
+                                    } else if (scelta17 == 2) {
+                                        List<Tratta> listaTratte = trattaDAO.listaDiTratte(TipoMezzo.TRAM);
+                                        int conteggio11 = 1;
+                                        System.out.println("Seleziona la tratta ");
+                                        for (Tratta tratta : listaTratte) {
+                                            System.out.println(conteggio11 + ": " + tratta.getZona_di_partenza() + " - " + tratta.getCapolinea());
+                                            conteggio11++;
                                         }
+                                        int scelta16 = scanner.nextInt();
+                                        trattaScelta = listaTratte.get(scelta16 - 1);
+                                        System.out.println("Tratta selezionata: " + trattaScelta.getZona_di_partenza() + " - " + trattaScelta.getCapolinea());
                                     }
-                                } else {
-                                    System.out.println("l'utente non ha biglietti");
+                                    List<Ticket> listaTicket = utenteDAO.findTicketByUtente(utenteScelto);
+                                    if (!listaTicket.isEmpty()) {
+                                        if (listaTicket.stream().anyMatch(t -> t instanceof Abbonamenti)) {
+                                            System.out.println("Hai un abbonamento: " + listaTicket.getFirst());
+                                            Ticket abbonamentoSalvato = listaTicket.getFirst();
+                                            LocalDate dataDiScadenza = ticketDAO.getDataScadenza(abbonamentoSalvato);
+                                            System.out.println(dataDiScadenza);
+                                            LocalDate dataOdierna = LocalDate.now();
+                                            if (dataDiScadenza != null && dataDiScadenza.isBefore(dataOdierna)) {
+                                                System.out.println("Abbonamento scaduto in data: " + dataDiScadenza);
+                                                System.out.println("Rinnovo effettuato");
+                                                ticketDAO.rinnovaAbbonamento(abbonamentoSalvato);
+                                            } else {
+                                                System.out.println("Hai l'abbonamento e puoi salire nel mezzo");
+                                            }
+                                        } else if (listaTicket.stream().anyMatch(t -> t instanceof Biglietti)) {
+                                            System.out.println("Hai un biglietto: " + listaTicket.getFirst());
+                                            Ticket bigliettoSalvato = listaTicket.getFirst();
+
+                                            if (ticketDAO.getStatoBiglietto(bigliettoSalvato) == true) {
+                                                System.out.println("non puoi salire il biglietto è gia stato vidimato");
+
+                                            } else {
+                                                ticketDAO.setStatoBiglietto(bigliettoSalvato, true);
+                                                System.out.println("Biglietto validato e puoi salire nel mezzo");
+                                            }
+                                        }
+                                    } else {
+                                        System.out.println("l'utente non ha biglietti");
+                                    }
                                 }
+
+                                break;
+
                             }
-
-                            break;
-
                         }
-                    }
 
+                    }
             }
         }
     }
-}}
+}
 
 
 
