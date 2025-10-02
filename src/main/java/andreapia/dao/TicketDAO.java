@@ -1,8 +1,6 @@
 package andreapia.dao;
 
-import andreapia.entities.Abbonamenti;
-import andreapia.entities.Ticket;
-import andreapia.entities.Venditore;
+import andreapia.entities.*;
 import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -72,4 +70,43 @@ public class TicketDAO {
 
         }
     }
-}
+
+    public void setStatoBiglietto(Ticket id, boolean stato) {
+        EntityTransaction t = em.getTransaction();
+        t.begin();
+//        TypedQuery<Biglietti> query = em.createQuery("SELECT COUNT (b) FROM Ticket b WHERE b.idVenditore = :idVenditore", Long.class);
+        if(id instanceof Biglietti) {
+            Biglietti biglietto = (Biglietti) id;
+            ((Biglietti) id).setStato(true);
+            em.merge(id);
+        } else {
+            System.out.println("Non è possibile impostare il nuovo stato");
+        }
+        t.commit();
+    }
+
+    public LocalDate getDataScadenza(Ticket id) {
+        LocalDate dataScadenza = null;
+        if(id instanceof Abbonamenti) {
+            Abbonamenti abbonamento = (Abbonamenti) id;
+            dataScadenza = abbonamento.getDataScadenza();
+        } else {
+            System.out.println("Non è possibile impostare il nuovo stato");
+        }
+        return dataScadenza;
+    }
+
+    public void rinnovaAbbonamento(Ticket id) {
+        EntityTransaction t = em.getTransaction();
+
+            t.begin();
+            if(id instanceof Abbonamenti) {
+                Abbonamenti abbonamento = (Abbonamenti) id;
+                ((Abbonamenti) id).setDataScadenza(LocalDate.now().plusYears(1));
+            } else {
+                System.out.println("Non è possibile rinnovare l'abbonamento");
+            }
+        t.commit();
+            }
+    }
+

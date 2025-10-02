@@ -50,27 +50,6 @@ public class TesseraDAO {
         return tesseraFound;
     }
 
-    public void rinnovaTessera(String id, LocalDate nuovaScadenza) {
-        EntityTransaction t = em.getTransaction();
-
-        try {
-            t.begin();
-
-            Tessera tessera = em.find(Tessera.class, UUID.fromString(id));
-            if (tessera == null) {
-                throw new NotFoundException(id);
-            }
-
-            tessera.setDataScadenza(nuovaScadenza);
-
-            t.commit();
-
-            System.out.println("La tessera " + tessera.getIdTessera() +
-                    " è stata rinnovata con scadenza: " + tessera.getDataScadenza());
-        } catch (Exception e) {
-            System.out.println("Errore nel rinnovo tessera: " + e.getMessage());
-        }
-    }
 
     public void collegaAbbonamento(String idTessera, String idAbbonamento) {
         EntityTransaction t = em.getTransaction();

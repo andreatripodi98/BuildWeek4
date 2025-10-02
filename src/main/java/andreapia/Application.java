@@ -32,21 +32,21 @@ public class Application {
         Rivenditore rivenditore2 = new Rivenditore(TipoRivenditore.RIVENDITORE);
         Distributore distributore1 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.ATTIVO);
         Distributore distributore2 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.FUORI_SERVIZIO);
-//        venditoreDAO.saveVenditore(rivenditore1);
-//        venditoreDAO.saveVenditore(rivenditore2);
-//        venditoreDAO.saveVenditore(distributore1);
-//        venditoreDAO.saveVenditore(distributore2);
+        venditoreDAO.saveVenditore(rivenditore1);
+        venditoreDAO.saveVenditore(rivenditore2);
+        venditoreDAO.saveVenditore(distributore1);
+        venditoreDAO.saveVenditore(distributore2);
         Mezzi mezzo1 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.AUTOBUS, TipoMezzo.AUTOBUS);
-//        mezziDAO.saveMezzo(mezzo1);
+        mezziDAO.saveMezzo(mezzo1);
         Mezzi mezzo2 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.TRAM, TipoMezzo.TRAM);
-//        mezziDAO.saveMezzo(mezzo2);
+        mezziDAO.saveMezzo(mezzo2);
         Tratta tratta1 = new Tratta("Termini", "Colosseo", 1, mezzo1);
         trattaDAO.saveTratta(tratta1);
         Tratta tratta2 = new Tratta("Termini", "San Pietro", 2, mezzo2);
         trattaDAO.saveTratta(tratta2);
-        Utente utenteFromDb = utenteDAO.findById("357e4dc1-5070-4bf6-ae5c-b4ddc750a7ec");
-        Tessera tesseraFromDb = tesseraDAO.findById("6ed61ce2-b08a-4d23-bcbd-499bbb4ab04d");
-        Abbonamenti abbonamentoScaduto = new Abbonamenti(rivenditore1, LocalDate.now(), utenteFromDb, TipoAbbonamento.MENSILE, LocalDate.of(2025, 10, 1), tesseraFromDb);
+//        Utente utenteFromDb = utenteDAO.findById("357e4dc1-5070-4bf6-ae5c-b4ddc750a7ec");
+//        Tessera tesseraFromDb = tesseraDAO.findById("6ed61ce2-b08a-4d23-bcbd-499bbb4ab04d");
+//        Abbonamenti abbonamentoScaduto = new Abbonamenti(rivenditore1, LocalDate.now(), utenteFromDb, TipoAbbonamento.MENSILE, LocalDate.of(2025, 10, 1), tesseraFromDb);
 //        ticketDAO.saveTicket(abbonamentoScaduto);
 //        System.out.println(abbonamentoScaduto);
 
@@ -303,43 +303,42 @@ public class Application {
                             }
                             List<Ticket> listaTicket = utenteDAO.findTicketByUtente(utenteScelto);
                             if (!listaTicket.isEmpty()) {
-                                System.out.println("l'utente ha questi biglietti " + listaTicket);
-                               
-
+                                if (listaTicket.stream().anyMatch(t -> t instanceof Abbonamenti)) {
+                                    System.out.println("Hai un abbonamento: " + listaTicket.getFirst());
+                                    Ticket abbonamentoSalvato = listaTicket.getFirst();
+                                    LocalDate dataDiScadenza = ticketDAO.getDataScadenza(abbonamentoSalvato);
+                                    System.out.println(dataDiScadenza);
+                                    LocalDate dataOdierna = LocalDate.now();
+                                    if (dataDiScadenza != null && dataDiScadenza.isBefore(dataOdierna)) {
+                                        System.out.println("Abbonamento scaduto in data: " + dataDiScadenza);
+                                        System.out.println("Rinnovo effettuato");
+                                        ticketDAO.rinnovaAbbonamento(abbonamentoSalvato);
+                                    } else {
+                                        System.out.println("Hai l'abbonamento e puoi salire nel mezzo");
+                                    }
+                                } else if (listaTicket.stream().anyMatch(t -> t instanceof Biglietti)) {
+                                    System.out.println("Hai un biglietto: " + listaTicket.getFirst());
+                                    Ticket bigliettoSalvato = listaTicket.getFirst();
+                                    ticketDAO.setStatoBiglietto(bigliettoSalvato, true);
+                                    System.out.println("Biglietto validato e puoi salire nel mezzo");
+                                }
                             } else {
                                 System.out.println("l'utente non ha biglietti");
                             }
-
-                            break;
-
                         }
+
+                        break;
+
                     }
-
             }
+
         }
-
-
-//        utenteDAO.saveUser(utente1);
-
-//        Utente utenteFromDB = utenteDAO.findById("cbba4a94-d32c-4916-aa3b-11503e401d1b");
-//
-//
-//        Rivenditore rivenditore1 = new Rivenditore();
-//      venditoreDAO.saveVenditore(rivenditore1);
-//
-//
-//        Abbonamenti abbonamenti1 = new Abbonamenti(rivenditore1, LocalDate.now(), LocalDate.now().plusYears(1), utente1, TipoAbbonamento.MENSILE);
-//        System.out.println(abbonamenti1);
-//       ticketDAO.saveTicket(abbonamenti1);
-//        Abbonamenti abbonamentoFromDb = ticketDAO.findById("9eb31650-8f00-4fb6-91cf-ce3df8398cf3");
-//        Tessera tessera1 = new Tessera(LocalDate.now(), LocalDate.now().plusYears(1), utenteFromDB, abbonamentoFromDb);
-//        tesseraDAO.saveTessera(tessera1);
-//
-//
     }
-
-
 }
+
+
+
+
 
 
 
