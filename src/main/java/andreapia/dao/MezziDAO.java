@@ -2,12 +2,15 @@ package andreapia.dao;
 
 import andreapia.entities.Mezzi;
 import andreapia.entities.StoricoMezzi;
+import andreapia.entities.Venditore;
 import andreapia.enums.StatoMezzo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public class MezziDAO {
@@ -37,19 +40,15 @@ public class MezziDAO {
     }
 
     // Metodo setStatoMezzo passiamo l'id del mezzo e l'enum StatoMezzo
-    public void setStatoMezzo(UUID mezzoId, StatoMezzo nuovoStato) {
+    public void setStatoMezzo(Mezzi mezzoId, StatoMezzo nuovoStato) {
         try {
             EntityTransaction t = em.getTransaction();
             t.begin();
-            Mezzi mezzo = em.find(Mezzi.class, mezzoId);
-            if (mezzo != null) {
+            UUID mezzoUUID = mezzoId.getId();
+            Mezzi mezzo = em.find(Mezzi.class, mezzoUUID);
                 mezzo.setStato(nuovoStato);
                 t.commit();
-                System.out.println("Stato del mezzo " + mezzoId + " aggiornato a: " + nuovoStato);
-            } else {
-                System.out.println("Mezzo " + mezzoId + " non trovato!");
-                t.rollback();
-            }
+                System.out.println("Stato del mezzo " + mezzoId.getId() + " aggiornato a: " + nuovoStato);
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
@@ -116,6 +115,11 @@ public class MezziDAO {
             System.out.println("Errore nel conteggio delle corse: " + e.getMessage());
             return -1;
         }
+    }
+
+    public List<Mezzi> findAll() {
+        TypedQuery<Mezzi> query = em.createQuery("SELECT m FROM Mezzi m ", Mezzi.class);
+        return query.getResultList();
     }
 
 }
