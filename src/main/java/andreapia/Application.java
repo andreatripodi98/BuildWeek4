@@ -2,10 +2,7 @@ package andreapia;
 
 import andreapia.dao.*;
 import andreapia.entities.*;
-import andreapia.enums.StatoDistributore;
-import andreapia.enums.TipoAbbonamento;
-import andreapia.enums.TipoRivenditore;
-import andreapia.enums.TipoUtente;
+import andreapia.enums.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -35,10 +32,23 @@ public class Application {
         Rivenditore rivenditore2 = new Rivenditore(TipoRivenditore.RIVENDITORE);
         Distributore distributore1 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.ATTIVO);
         Distributore distributore2 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.FUORI_SERVIZIO);
-        venditoreDAO.saveVenditore(rivenditore1);
-        venditoreDAO.saveVenditore(rivenditore2);
-        venditoreDAO.saveVenditore(distributore1);
-        venditoreDAO.saveVenditore(distributore2);
+//        venditoreDAO.saveVenditore(rivenditore1);
+//        venditoreDAO.saveVenditore(rivenditore2);
+//        venditoreDAO.saveVenditore(distributore1);
+//        venditoreDAO.saveVenditore(distributore2);
+        Mezzi mezzo1 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.AUTOBUS, TipoMezzo.AUTOBUS);
+//        mezziDAO.saveMezzo(mezzo1);
+        Mezzi mezzo2 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.TRAM, TipoMezzo.TRAM);
+//        mezziDAO.saveMezzo(mezzo2);
+        Tratta tratta1 = new Tratta("Termini", "Colosseo", 1, mezzo1);
+        trattaDAO.saveTratta(tratta1);
+        Tratta tratta2 = new Tratta("Termini", "San Pietro", 2, mezzo2);
+        trattaDAO.saveTratta(tratta2);
+        Utente utenteFromDb = utenteDAO.findById("357e4dc1-5070-4bf6-ae5c-b4ddc750a7ec");
+        Tessera tesseraFromDb = tesseraDAO.findById("6ed61ce2-b08a-4d23-bcbd-499bbb4ab04d");
+        Abbonamenti abbonamentoScaduto = new Abbonamenti(rivenditore1, LocalDate.now(), utenteFromDb, TipoAbbonamento.MENSILE, LocalDate.of(2025, 10, 1), tesseraFromDb);
+//        ticketDAO.saveTicket(abbonamentoScaduto);
+//        System.out.println(abbonamentoScaduto);
 
 
         boolean continua = true;
@@ -125,8 +135,10 @@ public class Application {
                             System.out.println("Cosa vuoi fare?!");
                             System.out.println("premi 1 per acquistare un biglietto");
                             System.out.println("premi 2 per acquistare un abbonamento");
-                            System.out.println("premi 3 per scegliere la tratta");
+                            System.out.println("premi 3 se hai gia un biglietto o un abbonamento");
                             int scelta6 = scanner.nextInt();
+
+
                             switch (scelta6) {
                                 case 1:
                                     //-----------------------------------ACQUISTA BIGLIETTO-------------------------------
@@ -249,13 +261,60 @@ public class Application {
                                     } else {
                                         System.out.println("Scelta non valida scegli tra 1 e 2");
                                     }
+                                    break;
+                                case 3:
+                                    break;
+
+
+                            }
+                            //-----------------------------------SCEGLI IL MEZZO-------------------------------
+
+                            System.out.println("Scegli il mezzo");
+                            System.out.println("1 Autobus");
+                            System.out.println("2 Tram");
+                            int scelta17 = scanner.nextInt();
+                            Tratta trattaScelta = null;
+                            if (scelta17 == 1) {
+                                List<Tratta> listaTratte = trattaDAO.listaDiTratte(TipoMezzo.AUTOBUS);
+                                int conteggio = 1;
+                                //-----------------------------------SCEGLI TRATTA-------------------------------
+
+                                System.out.println("Seleziona la tratta ");
+                                for (Tratta tratta : listaTratte) {
+                                    System.out.println(conteggio + ": " + tratta.getZona_di_partenza() + " " + tratta.getCapolinea());
+                                    conteggio++;
+                                }
+                                int scelta16 = scanner.nextInt();
+                                trattaScelta = listaTratte.get(scelta16 - 1);
+                                System.out.println("Tratta selezionata: " + trattaScelta.getZona_di_partenza() + " " + trattaScelta.getCapolinea());
+
+
+                            } else if (scelta17 == 2) {
+                                List<Tratta> listaTratte = trattaDAO.listaDiTratte(TipoMezzo.TRAM);
+                                int conteggio = 1;
+                                System.out.println("Seleziona la tratta ");
+                                for (Tratta tratta : listaTratte) {
+                                    System.out.println(conteggio + ": " + tratta.getZona_di_partenza() + " - " + tratta.getCapolinea());
+                                    conteggio++;
+                                }
+                                int scelta16 = scanner.nextInt();
+                                trattaScelta = listaTratte.get(scelta16 - 1);
+                                System.out.println("Tratta selezionata: " + trattaScelta.getZona_di_partenza() + " - " + trattaScelta.getCapolinea());
+                            }
+                            List<Ticket> listaTicket = utenteDAO.findTicketByUtente(utenteScelto);
+                            if (!listaTicket.isEmpty()) {
+                                System.out.println("l'utente ha questi biglietti " + listaTicket);
+                               
+
+                            } else {
+                                System.out.println("l'utente non ha biglietti");
                             }
 
                             break;
+
                         }
                     }
-//           else if () {
-//
+
             }
         }
 

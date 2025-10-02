@@ -1,6 +1,7 @@
 package andreapia.dao;
 
 import andreapia.entities.Tessera;
+import andreapia.entities.Ticket;
 import andreapia.entities.Utente;
 import andreapia.enums.TipoUtente;
 import andreapia.exceptions.NotFoundException;
@@ -61,6 +62,13 @@ public class UtenteDAO {
         query.setParameter("id", id);
 
         return query.getSingleResult();
+    }
+
+    public List<Ticket> findTicketByUtente(Utente id) {
+        String listaTicket = "SELECT t FROM Ticket t WHERE t.utente = :id";
+        TypedQuery<Ticket> query = em.createQuery(listaTicket, Ticket.class);
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 
 }
