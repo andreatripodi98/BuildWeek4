@@ -2,12 +2,12 @@ package andreapia.dao;
 
 import andreapia.entities.Abbonamenti;
 import andreapia.entities.Tessera;
+import andreapia.entities.Utente;
 import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 public class TesseraDAO {
@@ -36,6 +36,15 @@ public class TesseraDAO {
         Tessera tesseraFound = em.find(Tessera.class, UUID.fromString(id));
         if (tesseraFound == null) {
             throw new NotFoundException(id);
+        }
+        System.out.println("tessera trovata: " + tesseraFound.getIdTessera() + " " + tesseraFound.getUtente());
+        return tesseraFound;
+    }
+
+    public Tessera findById(Utente id) {
+        Tessera tesseraFound = em.find(Tessera.class, id);
+        if (tesseraFound == null) {
+            System.out.println("Errore nessuna tessera trovata!");
         }
         System.out.println("tessera trovata: " + tesseraFound.getIdTessera() + " " + tesseraFound.getUtente());
         return tesseraFound;

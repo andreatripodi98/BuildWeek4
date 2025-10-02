@@ -1,5 +1,6 @@
 package andreapia.dao;
 
+import andreapia.entities.Tessera;
 import andreapia.entities.Utente;
 import andreapia.enums.TipoUtente;
 import andreapia.exceptions.NotFoundException;
@@ -50,6 +51,16 @@ public class UtenteDAO {
         query.setParameter("tipo", tipo);
 
         return query.getResultList();
+    }
+
+    public Tessera findTesseraByUtente(Utente id) {
+        String listaTrovati = "SELECT u FROM Tessera u WHERE u.id = :id";
+
+        TypedQuery<Tessera> query = em.createQuery(listaTrovati, Tessera.class);
+
+        query.setParameter("id", id);
+
+        return query.getSingleResult();
     }
 
 }

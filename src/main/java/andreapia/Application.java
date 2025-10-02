@@ -53,6 +53,7 @@ public class Application {
                 case 0:
                     continua = false;
                     System.out.println("programma terminato");
+                    break;
 //-----------------------------------INSERIMENTO UTENTI-------------------------------
                 case 1:
                     System.out.println("inserisci nome");
@@ -154,8 +155,6 @@ public class Application {
                                                 System.out.println("Biglietto acquistato: " + biglietto.getId());
                                             }
                                         }
-
-
                                     }
                                     //-----------------------------------VENDITORE-------------------------------
                                     else if (scelta7 == 2) {
@@ -166,16 +165,24 @@ public class Application {
                                             System.out.println(conteggio3 + ": " + venditore);
                                             conteggio3++;
                                         }
-                                        break;
-                                        //case 2:
-                                        // break;
-                                        // case 3:
-                                        //  break;
-                                        // case 4:
-                                        //  break;
+                                        int scelta10 = scanner.nextInt();
+                                        Venditore vendireScelto = listaRiuenditori.get(scelta10 - 1);
+                                        System.out.println("Venditore selezionato: " + vendireScelto);
+                                        Biglietti biglietto = new Biglietti(vendireScelto, LocalDate.now(), utenteScelto, false);
+                                        ticketDAO.saveTicket(biglietto);
+                                        System.out.println("Biglietto acquistato: " + biglietto.getId());
+                                    } else {
+                                        System.out.println("Scelta non valida scegli tra 1 e 2");
                                     }
-
+                                    break;
+                                case 2:
+                                    //-----------------------------------ACQUISTA ABBONAMENTO-------------------------------
+                                    //   if (tesseraDAO.findById(utenteScelto)) {
+                                    //      System.out.println("Inserisci il numero di tessera per acquistare l'abbonamento.");
+                                    //   }
+                                    ;
                             }
+
                             break;
                         }
                     }
