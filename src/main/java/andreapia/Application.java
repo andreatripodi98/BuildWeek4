@@ -125,7 +125,7 @@ public class Application {
                             System.out.println("Cosa vuoi fare?!");
                             System.out.println("premi 1 per acquistare un biglietto");
                             System.out.println("premi 2 per acquistare un abbonamento");
-                            System.out.println("premi 3 per scegleire la tratta");
+                            System.out.println("premi 3 per scegliere la tratta");
                             int scelta6 = scanner.nextInt();
                             switch (scelta6) {
                                 case 1:
@@ -183,6 +183,7 @@ public class Application {
                                     System.out.println("Premi 1 per distributore automatico");
                                     System.out.println("Premi 2 per rivenditore autorizzato");
                                     int scelta11 = scanner.nextInt();
+                                    //-----------------------------------ACQUISTA ABBONAMENTO DISTRIBUTORE-------------------------------
                                     if (scelta11 == 1) {
                                         List<Venditore> listaDistributori = venditoreDAO.findByTipoVenditore(TipoRivenditore.DISTRIBUTORE);
                                         int conteggio = 1;
@@ -217,7 +218,7 @@ public class Application {
                                                 }
                                             }
                                         }
-
+                                        //-----------------------------------ACQUISTA ABBONAMENTO RIVENDITORE-------------------------------
                                     } else if (scelta11 == 2) {
                                         List<Venditore> listaRiuenditori = venditoreDAO.findByTipoVenditore(TipoRivenditore.RIVENDITORE);
                                         int conteggio = 1;
