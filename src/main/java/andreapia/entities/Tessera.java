@@ -24,8 +24,8 @@ public class Tessera {
     @OneToOne(mappedBy = "tessera")
     private Abbonamenti abbonamento;
 
-    public Tessera(){
-        
+    public Tessera() {
+
     }
 
     public Tessera(LocalDate dataEmissione, LocalDate dataScadenza, Utente utente) {
@@ -35,10 +35,12 @@ public class Tessera {
     }
 
     public UUID getIdTessera() {
+
         return idTessera;
     }
 
     public LocalDate getDataEmissione() {
+
         return dataEmissione;
     }
 

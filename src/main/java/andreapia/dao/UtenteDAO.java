@@ -54,7 +54,7 @@ public class UtenteDAO {
     }
 
     public Tessera findTesseraByUtente(Utente id) {
-        String listaTrovati = "SELECT u FROM Tessera u WHERE u.id = :id";
+        String listaTrovati = "SELECT u FROM Tessera u WHERE u.utente = :id";
 
         TypedQuery<Tessera> query = em.createQuery(listaTrovati, Tessera.class);
 

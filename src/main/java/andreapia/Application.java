@@ -3,6 +3,7 @@ package andreapia;
 import andreapia.dao.*;
 import andreapia.entities.*;
 import andreapia.enums.StatoDistributore;
+import andreapia.enums.TipoAbbonamento;
 import andreapia.enums.TipoRivenditore;
 import andreapia.enums.TipoUtente;
 import jakarta.persistence.EntityManager;
@@ -77,6 +78,8 @@ public class Application {
 
                         Utente utente1 = new Utente(TipoUtente.UTENTE, nomeUtente, cognomeUtente);
                         utenteDAO.saveUser(utente1);
+                        Tessera tessera1 = new Tessera(LocalDate.now(), LocalDate.now().plusYears(1), utente1);
+                        tesseraDAO.saveTessera(tessera1);
                         System.out.println("utente creato " + utente1.getNomeUtente() + " " + utente1.getCognomeUtente());
                     } else {
                         System.out.println("scelta non valida");
@@ -122,8 +125,7 @@ public class Application {
                             System.out.println("Cosa vuoi fare?!");
                             System.out.println("premi 1 per acquistare un biglietto");
                             System.out.println("premi 2 per acquistare un abbonamento");
-                            System.out.println("premi 3 per acquistare una tessera");
-                            System.out.println("premi 4 per scegleire la tratta");
+                            System.out.println("premi 3 per scegleire la tratta");
                             int scelta6 = scanner.nextInt();
                             switch (scelta6) {
                                 case 1:
@@ -177,10 +179,75 @@ public class Application {
                                     break;
                                 case 2:
                                     //-----------------------------------ACQUISTA ABBONAMENTO-------------------------------
-                                    //   if (tesseraDAO.findById(utenteScelto)) {
-                                    //      System.out.println("Inserisci il numero di tessera per acquistare l'abbonamento.");
-                                    //   }
-                                    ;
+                                    System.out.println("Da dove vuoi acquistare l'abbonamento?");
+                                    System.out.println("Premi 1 per distributore automatico");
+                                    System.out.println("Premi 2 per rivenditore autorizzato");
+                                    int scelta11 = scanner.nextInt();
+                                    if (scelta11 == 1) {
+                                        List<Venditore> listaDistributori = venditoreDAO.findByTipoVenditore(TipoRivenditore.DISTRIBUTORE);
+                                        int conteggio = 1;
+                                        System.out.println("Seleziona il distributore");
+                                        for (Venditore venditore : listaDistributori) {
+                                            System.out.println(conteggio + ": " + venditore);
+                                            conteggio++;
+                                        }
+                                        int scelta12 = scanner.nextInt();
+                                        Venditore distributoreScelto = listaDistributori.get(scelta12 - 1);
+                                        System.out.println("Distributore selezionato: " + distributoreScelto);
+                                        if (distributoreScelto instanceof Distributore) {
+                                            Enum scelta13 = ((Distributore) distributoreScelto).getStato();
+                                            if (scelta13 == StatoDistributore.FUORI_SERVIZIO) {
+                                                System.out.println("Il distributore è fuori servizio! Non puoi acquistare il biglietto!");
+                                                System.out.println("Seleziona un altro distributore");
+                                            } else {
+                                                System.out.println("Scegli il tipo di abbonamento");
+                                                System.out.println("1 Abbonamento Mensile");
+                                                System.out.println("2 Abbonamento Settimanale");
+                                                int scelta14 = scanner.nextInt();
+                                                if (scelta14 == 1) {
+                                                    Abbonamenti abbonamento = new Abbonamenti(distributoreScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.MENSILE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
+                                                    ticketDAO.saveTicket(abbonamento);
+                                                    System.out.println("Abbonamento mensile acquistato: " + abbonamento.getId());
+                                                } else if (scelta14 == 2) {
+                                                    Abbonamenti abbonamento = new Abbonamenti(distributoreScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.SETTIMANALE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
+                                                    ticketDAO.saveTicket(abbonamento);
+                                                    System.out.println("Abbonamento settimanale acquistato: " + abbonamento.getId());
+                                                } else {
+                                                    System.out.println("Scelta non valida scegli tra 1 e 2");
+                                                }
+                                            }
+                                        }
+
+                                    } else if (scelta11 == 2) {
+                                        List<Venditore> listaRiuenditori = venditoreDAO.findByTipoVenditore(TipoRivenditore.RIVENDITORE);
+                                        int conteggio = 1;
+                                        System.out.println("Seleziona il venditore");
+                                        for (Venditore venditore : listaRiuenditori) {
+                                            System.out.println(conteggio + ": " + venditore);
+                                            conteggio++;
+                                        }
+                                        int scelta15 = scanner.nextInt();
+                                        Venditore vendireScelto = listaRiuenditori.get(scelta15 - 1);
+                                        System.out.println("Venditore selezionato: " + vendireScelto);
+                                        System.out.println("Scegli il tipo di abbonamento");
+                                        System.out.println("1 Abbonamento Mensile");
+                                        System.out.println("2 Abbonamento Settimanale");
+                                        int scelta14 = scanner.nextInt();
+                                        if (scelta14 == 1) {
+                                            Abbonamenti abbonamento = new Abbonamenti(vendireScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.MENSILE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
+                                            ticketDAO.saveTicket(abbonamento);
+                                            System.out.println("Abbonamento mensile acquistato: " + abbonamento.getId());
+                                        } else if (scelta14 == 2) {
+                                            Abbonamenti abbonamento = new Abbonamenti(vendireScelto, LocalDate.now(), utenteScelto, TipoAbbonamento.SETTIMANALE, LocalDate.now().plusYears(1), utenteDAO.findTesseraByUtente(utenteScelto));
+                                            ticketDAO.saveTicket(abbonamento);
+                                            System.out.println("Abbonamento settimanale acquistato: " + abbonamento.getId());
+                                        } else {
+                                            System.out.println("Scelta non valida scegli tra 1 e 2");
+                                        }
+
+                                    } else {
+                                        System.out.println("Scelta non valida scegli tra 1 e 2");
+                                    }
                             }
 
                             break;
