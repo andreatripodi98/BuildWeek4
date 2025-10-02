@@ -84,6 +84,7 @@ public class Application {
 
                         System.out.println("amministratore creato " + utente1.getNomeUtente() + " " + utente1.getCognomeUtente());
 
+
                     } else if (scelta2 == 2) {
 
                         Utente utente1 = new Utente(TipoUtente.UTENTE, nomeUtente, cognomeUtente);
@@ -95,6 +96,7 @@ public class Application {
                         System.out.println("scelta non valida");
                         continue;
                     }
+
                     break;
                 case 2:
                     //-----------------------------------SCELTA UTENTE-------------------------------
@@ -118,8 +120,28 @@ public class Application {
                             scanner.nextLine();
                             String password = scanner.nextLine();
                             if (password.equals("admin123")) {
-                                System.out.println("controlla i biglietti venduti");
+                                System.out.println("1 controlla i biglietti venduti da un punto di emissione specifico");
+                                System.out.println("2 controlla i biglietti venduti in un determinato periodo di tempo");
+                                int scelta18 = scanner.nextInt();
+
+                                if (scelta18 == 1) {
+                                    System.out.println("scegli il punto di emissione");
+                                    List<Venditore> listaVenditori = venditoreDAO.findAll();
+                                    int conteggio3 = 1;
+                                    for (Venditore venditore : listaVenditori) {
+                                        System.out.println(conteggio3 + ": " + venditore);
+                                        conteggio3++;
+                                    }
+
+                                    int scelta19 = scanner.nextInt();
+                                    Venditore venditoreScelto = listaVenditori.get(scelta19 - 1);
+                                    ticketDAO.bigliettiEmessiVenditore(venditoreScelto);
+
+                                }
+
+
                             }
+
                         } else if (scelta3 == 2) {
                             int conteggio1 = 1;
                             System.out.println("Quale utente sei?");
@@ -319,8 +341,14 @@ public class Application {
                                 } else if (listaTicket.stream().anyMatch(t -> t instanceof Biglietti)) {
                                     System.out.println("Hai un biglietto: " + listaTicket.getFirst());
                                     Ticket bigliettoSalvato = listaTicket.getFirst();
-                                    ticketDAO.setStatoBiglietto(bigliettoSalvato, true);
-                                    System.out.println("Biglietto validato e puoi salire nel mezzo");
+
+                                    if (ticketDAO.getStatoBiglietto(bigliettoSalvato) == true) {
+                                        System.out.println("non puoi salire il biglietto è gia stato vidimato");
+
+                                    } else {
+                                        ticketDAO.setStatoBiglietto(bigliettoSalvato, true);
+                                        System.out.println("Biglietto validato e puoi salire nel mezzo");
+                                    }
                                 }
                             } else {
                                 System.out.println("l'utente non ha biglietti");

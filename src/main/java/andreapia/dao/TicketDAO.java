@@ -1,6 +1,9 @@
 package andreapia.dao;
 
-import andreapia.entities.*;
+import andreapia.entities.Abbonamenti;
+import andreapia.entities.Biglietti;
+import andreapia.entities.Ticket;
+import andreapia.entities.Venditore;
 import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -75,7 +78,7 @@ public class TicketDAO {
         EntityTransaction t = em.getTransaction();
         t.begin();
 //        TypedQuery<Biglietti> query = em.createQuery("SELECT COUNT (b) FROM Ticket b WHERE b.idVenditore = :idVenditore", Long.class);
-        if(id instanceof Biglietti) {
+        if (id instanceof Biglietti) {
             Biglietti biglietto = (Biglietti) id;
             ((Biglietti) id).setStato(true);
             em.merge(id);
@@ -85,9 +88,20 @@ public class TicketDAO {
         t.commit();
     }
 
+    public boolean getStatoBiglietto(Ticket id) {
+        boolean statoBiglietto = false;
+        if (id instanceof Biglietti) {
+            Biglietti biglietti = (Biglietti) id;
+            statoBiglietto = biglietti.isStato();
+        } else {
+            System.out.println("Non è possibile impostare il nuovo stato");
+        }
+        return statoBiglietto;
+    }
+
     public LocalDate getDataScadenza(Ticket id) {
         LocalDate dataScadenza = null;
-        if(id instanceof Abbonamenti) {
+        if (id instanceof Abbonamenti) {
             Abbonamenti abbonamento = (Abbonamenti) id;
             dataScadenza = abbonamento.getDataScadenza();
         } else {
@@ -99,14 +113,14 @@ public class TicketDAO {
     public void rinnovaAbbonamento(Ticket id) {
         EntityTransaction t = em.getTransaction();
 
-            t.begin();
-            if(id instanceof Abbonamenti) {
-                Abbonamenti abbonamento = (Abbonamenti) id;
-                ((Abbonamenti) id).setDataScadenza(LocalDate.now().plusYears(1));
-            } else {
-                System.out.println("Non è possibile rinnovare l'abbonamento");
-            }
+        t.begin();
+        if (id instanceof Abbonamenti) {
+            Abbonamenti abbonamento = (Abbonamenti) id;
+            ((Abbonamenti) id).setDataScadenza(LocalDate.now().plusYears(1));
+        } else {
+            System.out.println("Non è possibile rinnovare l'abbonamento");
+        }
         t.commit();
-            }
     }
+}
 

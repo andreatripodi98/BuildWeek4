@@ -74,13 +74,9 @@ public class VenditoreDAO {
         return query.getResultList();
     }
 
-    public List<Distributore> findByTipoDistributore(TipoRivenditore tipo) {
-        String listaTrovati = "SELECT u FROM Venditore u WHERE u.tipoRivenditore = :tipo";
 
-        TypedQuery<Distributore> query = em.createQuery(listaTrovati, Distributore.class);
-
-        query.setParameter("tipo", tipo);
-
+    public List<Venditore> findAll() {
+        TypedQuery<Venditore> query = em.createQuery("SELECT v FROM Venditore v ", Venditore.class);
         return query.getResultList();
     }
 
