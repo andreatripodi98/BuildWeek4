@@ -2,6 +2,7 @@ package andreapia.dao;
 
 import andreapia.entities.Mezzi;
 import andreapia.entities.StoricoMezzi;
+import andreapia.entities.Tratta;
 import andreapia.enums.StatoMezzo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;

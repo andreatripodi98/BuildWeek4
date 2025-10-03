@@ -29,18 +29,18 @@ public class Application {
         TrattaDAO trattaDAO = new TrattaDAO(em);
         CorsaDAO corsaDAO = new CorsaDAO(em);
         TicketDAO ticketDAO = new TicketDAO(em);
-//        Rivenditore rivenditore1 = new Rivenditore(TipoRivenditore.RIVENDITORE);
-//        Rivenditore rivenditore2 = new Rivenditore(TipoRivenditore.RIVENDITORE);
-//        Distributore distributore1 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.ATTIVO);
-//        Distributore distributore2 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.FUORI_SERVIZIO);
-//        venditoreDAO.saveVenditore(rivenditore1);
-//        venditoreDAO.saveVenditore(rivenditore2);
-//        venditoreDAO.saveVenditore(distributore1);
-//        venditoreDAO.saveVenditore(distributore2);
-//        Mezzi mezzo1 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.AUTOBUS, TipoMezzo.AUTOBUS);
-//        mezziDAO.saveMezzo(mezzo1);
-//        Mezzi mezzo2 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.TRAM, TipoMezzo.TRAM);
-//        mezziDAO.saveMezzo(mezzo2);
+        Rivenditore rivenditore1 = new Rivenditore(TipoRivenditore.RIVENDITORE);
+        Rivenditore rivenditore2 = new Rivenditore(TipoRivenditore.RIVENDITORE);
+        Distributore distributore1 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.ATTIVO);
+        Distributore distributore2 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.FUORI_SERVIZIO);
+        venditoreDAO.saveVenditore(rivenditore1);
+        venditoreDAO.saveVenditore(rivenditore2);
+        venditoreDAO.saveVenditore(distributore1);
+        venditoreDAO.saveVenditore(distributore2);
+       Mezzi mezzo1 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.AUTOBUS, TipoMezzo.AUTOBUS);
+        mezziDAO.saveMezzo(mezzo1);
+        Mezzi mezzo2 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.TRAM, TipoMezzo.TRAM);
+        mezziDAO.saveMezzo(mezzo2);
 //        Tratta tratta1 = new Tratta("Termini", "Cinecittà", 1, mezzo1);
 //        trattaDAO.saveTratta(tratta1);
 //        Tratta tratta2 = new Tratta("Termini", "San Pietro", 2, mezzo2);
@@ -452,8 +452,9 @@ public class Application {
                                         System.out.println("non puoi salire il biglietto è gia stato vidimato");
 
                                     } else {
+                                        Mezzi mezzoScelto1 = trattaDAO.mezzi(trattaScelta);
                                         ticketDAO.setStatoBiglietto(bigliettoSalvato, true);
-                                        bigliettiVidimatiDAO.saveBigliettiVidimati(bigliettoSalvato, LocalDate.now(), trattaScelta.);
+                                        bigliettiVidimatiDAO.saveBigliettiVidimati(bigliettoSalvato, LocalDate.now(), mezzoScelto1 );
                                         System.out.println("Biglietto validato e puoi salire nel mezzo");
 
                                     }
