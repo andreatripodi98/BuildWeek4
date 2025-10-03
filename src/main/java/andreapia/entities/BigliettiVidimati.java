@@ -1,6 +1,5 @@
 package andreapia.entities;
 
-import andreapia.enums.TipoRivenditore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -15,8 +14,8 @@ public class BigliettiVidimati {
     private UUID id;
 
     @OneToOne
-    @JoinColumn (name = "id_biglietti", nullable = false)
-    private Biglietti id_biglietto;
+    @JoinColumn(name = "id_biglietti", nullable = false)
+    private Ticket id_biglietto;
 
     @ManyToOne
     @JoinColumn(name = "id_mezzi")
@@ -25,10 +24,10 @@ public class BigliettiVidimati {
     @Column(name = "data_vidimazione", nullable = false)
     private LocalDate data_vidimazione;
 
-    public BigliettiVidimati(){
+    public BigliettiVidimati() {
     }
 
-    public BigliettiVidimati(Biglietti id_biglietto, Mezzi id_mezzo, LocalDate data_vidimazione) {
+    public BigliettiVidimati(Ticket id_biglietto, Mezzi id_mezzo, LocalDate data_vidimazione) {
         this.id_biglietto = id_biglietto;
         this.id_mezzo = id_mezzo;
         this.data_vidimazione = data_vidimazione;
@@ -38,7 +37,7 @@ public class BigliettiVidimati {
         return id;
     }
 
-    public Biglietti getId_biglietto() {
+    public Ticket getId_biglietto() {
         return id_biglietto;
     }
 

@@ -192,7 +192,7 @@ public class Application {
                                             mezziDAO.periodoManutenzione(mezzoScelto.getId(), dataInizio, dataFine, "Problemi al motore");
                                             break;
                                         case 2:
-
+                                            //---------------------------------ASSEGNA MEZZO A TRATTA--------------------------------
                                             System.out.println("Assegna zona di partenza");
                                             scanner.nextLine();
                                             String zonaDiPartenza = scanner.nextLine();
@@ -202,13 +202,37 @@ public class Application {
                                             System.out.println("tratta assegnata al mezzo " + mezzoScelto.getId() + " partenza " + zonaDiPartenza + " capolinea " + capolinea);
                                             break;
                                         case 3:
+                                            //-----------------------------------CONTROLLA PERIODI MANUTENZIONE-------------------------------
 
+                                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                                            System.out.println("Inserisci data inizio (formato GG/MM/AAAA, es. 02/10/2025):");
+                                            String dataInizioStringa = scanner.next();
+
+                                            LocalDate dataInizioManutenzione = LocalDate.parse(dataInizioStringa, formatter);
+
+                                            System.out.println("Data di inizio salvata come LocalDate: " + dataInizioManutenzione);
+
+                                            System.out.println("Inserisci data fine (formato GG/MM/AAAA, es. 02/10/2025):");
+                                            String dataFineStringa = scanner.next();
+
+                                            LocalDate dataFineManutenzione = LocalDate.parse(dataFineStringa, formatter);
+
+                                            System.out.println("Data di fine salvata come LocalDate: " + dataFineManutenzione);
+                                            storicoDAO.storicoMezziPerPeriodo(mezzoScelto, dataInizioManutenzione, dataFineManutenzione);
                                             break;
                                         case 4:
                                             mezziDAO.contaBigliettiVidimati(mezzoScelto);
                                             break;
                                         case 5:
-                                            //DA FARE METODO
+                                            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                                            System.out.println("Inserisci data inizio (formato GG/MM/AAAA, es. 02/10/2025):");
+                                            String dataInizioStringa1 = scanner.next();
+                                            LocalDate dataVidimazione = LocalDate.parse(dataInizioStringa1, formatter1);
+                                            System.out.println("Inserisci data fine (formato GG/MM/AAAA, es. 02/10/2025):");
+                                            String dataFineStringa1 = scanner.next();
+                                            LocalDate dataFineVidimazione = LocalDate.parse(dataFineStringa1, formatter1);
+                                            ticketDAO.bigliettiVidimatiPerPeriodo(mezzoScelto, dataVidimazione, dataFineVidimazione);
                                             break;
                                         case 6:
                                             mezziDAO.contaCorsePercorseDaMezzo(mezzoScelto);
@@ -429,7 +453,9 @@ public class Application {
 
                                     } else {
                                         ticketDAO.setStatoBiglietto(bigliettoSalvato, true);
+                                        bigliettiVidimatiDAO.saveBigliettiVidimati(bigliettoSalvato, LocalDate.now(), trattaScelta.);
                                         System.out.println("Biglietto validato e puoi salire nel mezzo");
+
                                     }
                                 }
                             } else {

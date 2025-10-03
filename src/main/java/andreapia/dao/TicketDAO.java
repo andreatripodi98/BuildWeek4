@@ -1,9 +1,6 @@
 package andreapia.dao;
 
-import andreapia.entities.Abbonamenti;
-import andreapia.entities.Biglietti;
-import andreapia.entities.Ticket;
-import andreapia.entities.Venditore;
+import andreapia.entities.*;
 import andreapia.exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -50,6 +47,21 @@ public class TicketDAO {
             query.setParameter("dataInizio", dataInizio);
             query.setParameter("dataFine", dataFine);
             System.out.println("sono stati trovati " + query.getSingleResult() + " biglietti emessi tra " + dataInizio + " e il " + dataFine);
+            return query.getSingleResult();
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    public Long bigliettiVidimatiPerPeriodo(Mezzi mezzo, LocalDate dataInizio, LocalDate dataFine) {
+        try {
+            TypedQuery<Long> query = em.createQuery("SELECT COUNT (b) FROM BigliettiVidimati b WHERE b.id_mezzo = :mezzo AND b.data_vidimazione BETWEEN :dataInizio AND :dataFine", Long.class);
+            query.setParameter("dataInizio", dataInizio);
+            query.setParameter("dataFine", dataFine);
+            query.setParameter("mezzo", mezzo);
+            System.out.println("sono stati trovati " + query.getSingleResult() + " biglietti vidimati emessi tra " + dataInizio + " e il " + dataFine);
             return query.getSingleResult();
 
         } catch (Exception ex) {

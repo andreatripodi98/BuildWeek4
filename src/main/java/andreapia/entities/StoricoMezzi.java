@@ -3,8 +3,6 @@ package andreapia.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,7 +12,7 @@ public class StoricoMezzi {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn (name="id_mezzo")
+    @JoinColumn(name = "id_mezzo")
     private Mezzi mezzo;
 
     @Column(name = "data_inizio_manutenzione")
@@ -71,12 +69,11 @@ public class StoricoMezzi {
 
     @Override
     public String toString() {
-        return "StoricoMezzi{" +
-                "id=" + id +
-                ", mezzo=" + mezzo +
-                ", dataInizioManutenzione=" + dataInizioManutenzione +
-                ", dataFineManutenzione=" + dataFineManutenzione +
-                ", causaManutenzione='" + causaManutenzione + '\'' +
-                '}';
+        return "StoricoMezzi " +
+                "id: " + id +
+                ", mezzo: " + mezzo +
+                ", data Inizio Manutenzione: " + dataInizioManutenzione +
+                ", data Fine Manutenzione: " + dataFineManutenzione +
+                ", causa Manutenzione: " + causaManutenzione;
     }
 }
