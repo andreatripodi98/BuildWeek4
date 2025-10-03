@@ -77,8 +77,14 @@ public class TrattaDAO {
     }
 
     public Mezzi mezzi (Tratta tratta){
-        TypedQuery<Mezzi> query = em.createQuery("SELECT t.mezzi FROM Tratta t WHERE t.id_tratta = :tratta", Mezzi.class);
-        query.setParameter("tratta", tratta);
+        UUID trattaId = tratta.getId_tratta();
+
+        TypedQuery<Mezzi> query = em.createQuery(
+                "SELECT t.mezzi FROM Tratta t WHERE t.id_tratta = :trattaId",
+                Mezzi.class
+        );
+
+        query.setParameter("trattaId", trattaId);
 
         return query.getSingleResult();
     }
