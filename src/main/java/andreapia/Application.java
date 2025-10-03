@@ -8,7 +8,6 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
@@ -30,24 +29,24 @@ public class Application {
         TrattaDAO trattaDAO = new TrattaDAO(em);
         CorsaDAO corsaDAO = new CorsaDAO(em);
         TicketDAO ticketDAO = new TicketDAO(em);
-        Rivenditore rivenditore1 = new Rivenditore(TipoRivenditore.RIVENDITORE);
-        Rivenditore rivenditore2 = new Rivenditore(TipoRivenditore.RIVENDITORE);
-        Distributore distributore1 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.ATTIVO);
-        Distributore distributore2 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.FUORI_SERVIZIO);
-        venditoreDAO.saveVenditore(rivenditore1);
-        venditoreDAO.saveVenditore(rivenditore2);
-        venditoreDAO.saveVenditore(distributore1);
-        venditoreDAO.saveVenditore(distributore2);
-        Mezzi mezzo1 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.AUTOBUS, TipoMezzo.AUTOBUS);
-        mezziDAO.saveMezzo(mezzo1);
-        Mezzi mezzo2 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.TRAM, TipoMezzo.TRAM);
-        mezziDAO.saveMezzo(mezzo2);
-        Tratta tratta1 = new Tratta("Termini", "Cinecittà", 1, mezzo1);
-        trattaDAO.saveTratta(tratta1);
-        Tratta tratta2 = new Tratta("Termini", "San Pietro", 2, mezzo2);
-        Corsa corsa1 = new Corsa(tratta1, mezzo1, LocalTime.now(), LocalTime.now().plusHours(2));
-        corsaDAO.saveCorsa(corsa1);
-        trattaDAO.saveTratta(tratta2);
+//        Rivenditore rivenditore1 = new Rivenditore(TipoRivenditore.RIVENDITORE);
+//        Rivenditore rivenditore2 = new Rivenditore(TipoRivenditore.RIVENDITORE);
+//        Distributore distributore1 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.ATTIVO);
+//        Distributore distributore2 = new Distributore(TipoRivenditore.DISTRIBUTORE, StatoDistributore.FUORI_SERVIZIO);
+//        venditoreDAO.saveVenditore(rivenditore1);
+//        venditoreDAO.saveVenditore(rivenditore2);
+//        venditoreDAO.saveVenditore(distributore1);
+//        venditoreDAO.saveVenditore(distributore2);
+//        Mezzi mezzo1 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.AUTOBUS, TipoMezzo.AUTOBUS);
+//        mezziDAO.saveMezzo(mezzo1);
+//        Mezzi mezzo2 = new Mezzi(StatoMezzo.IN_SERVIZIO, Capienza.TRAM, TipoMezzo.TRAM);
+//        mezziDAO.saveMezzo(mezzo2);
+//        Tratta tratta1 = new Tratta("Termini", "Cinecittà", 1, mezzo1);
+//        trattaDAO.saveTratta(tratta1);
+//        Tratta tratta2 = new Tratta("Termini", "San Pietro", 2, mezzo2);
+//        Corsa corsa1 = new Corsa(tratta1, mezzo1, LocalTime.now(), LocalTime.now().plusHours(2));
+//        corsaDAO.saveCorsa(corsa1);
+//        trattaDAO.saveTratta(tratta2);
 //        Utente utenteFromDb = utenteDAO.findById("357e4dc1-5070-4bf6-ae5c-b4ddc750a7ec");
 //        Tessera tesseraFromDb = tesseraDAO.findById("6ed61ce2-b08a-4d23-bcbd-499bbb4ab04d");
 //        Abbonamenti abbonamentoScaduto = new Abbonamenti(rivenditore1, LocalDate.now(), utenteFromDb, TipoAbbonamento.MENSILE, LocalDate.of(2025, 10, 1), tesseraFromDb);
@@ -177,11 +176,13 @@ public class Application {
                                     System.out.println("Il mezzo selezionato è: " + mezzoScelto);
                                     System.out.println("Cosa vuoi fare?");
                                     System.out.println("1 Setta lo stato del mezzo(IN MANUTENZIONE)");
-                                    System.out.println("2 Controlla i periodi di manutenzione");
-                                    System.out.println("3 Controlla biglietti vidimati sul mezzo");
-                                    System.out.println("4 Controlla biglietti vidimati sul mezzo per periodo di tempo");
-                                    System.out.println("4 Controlla biglietti vidimati sul mezzo per periodo di tempo");
-                                    System.out.println("5 Controlla i numero totale delle corse percorse per mezzo ");
+                                    System.out.println("2 Assegna mezzo a  tratta");
+                                    System.out.println("3 Controlla i periodi di manutenzione");
+                                    System.out.println("4 Controlla biglietti vidimati sul mezzo");
+                                    System.out.println("5 Controlla biglietti vidimati sul mezzo per periodo di tempo");
+                                    System.out.println("6 Controlla i numero totale delle corse percorse per mezzo ");
+                                    System.out.println("7 tempo effettivo di percorrenza delle corse del singolo mezzo ");
+                                    System.out.println("8 tempo medio effettivo di percorenza di una determinata tratta da parte di un mezzo specifico");
                                     int scelta22 = scanner.nextInt();
                                     switch (scelta22) {
                                         //-----------------------------------SET STATO MEZZO IN MANUTENZIONE-------------------------------
@@ -191,16 +192,32 @@ public class Application {
                                             mezziDAO.periodoManutenzione(mezzoScelto.getId(), dataInizio, dataFine, "Problemi al motore");
                                             break;
                                         case 2:
-                                            //DA FARE METODO
+
+                                            System.out.println("Assegna zona di partenza");
+                                            scanner.nextLine();
+                                            String zonaDiPartenza = scanner.nextLine();
+                                            System.out.println("Assegna capolinea");
+                                            String capolinea = scanner.nextLine();
+                                            trattaDAO.assegnaTratta(mezzoScelto.getId(), zonaDiPartenza, capolinea, 1.5);
+                                            System.out.println("tratta assegnata al mezzo " + mezzoScelto.getId() + " partenza " + zonaDiPartenza + " capolinea " + capolinea);
                                             break;
                                         case 3:
-                                            mezziDAO.contaBigliettiVidimati(mezzoScelto);
+
                                             break;
                                         case 4:
-                                            //DA FARE METODO
+                                            mezziDAO.contaBigliettiVidimati(mezzoScelto);
                                             break;
                                         case 5:
+                                            //DA FARE METODO
+                                            break;
+                                        case 6:
                                             mezziDAO.contaCorsePercorseDaMezzo(mezzoScelto);
+                                            break;
+                                        case 7:
+
+                                            break;
+                                        case 8:
+
                                             break;
                                     }
 

@@ -1,5 +1,6 @@
 package andreapia.dao;
 
+import andreapia.entities.Corsa;
 import andreapia.entities.Mezzi;
 import andreapia.entities.Tratta;
 import andreapia.enums.TipoMezzo;
@@ -8,6 +9,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,20 +42,26 @@ public class TrattaDAO {
         return found;
     }
 
-    public void assegnaTratta(Mezzi id, String zonaDiPartenza, String capolinea, double tempoPrevistoPercorrenza) {
+    public void assegnaTratta(UUID id, String zonaDiPartenza, String capolinea, double tempoPrevistoPercorrenza) {
         try {
             EntityTransaction t = em.getTransaction();
             t.begin();
             Mezzi mezzo = em.find(Mezzi.class, id);
             if (mezzo != null) {
-                Tratta tratta = new Tratta(zonaDiPartenza, capolinea, tempoPrevistoPercorrenza, id);
+
+                Tratta tratta = new Tratta(zonaDiPartenza, capolinea, tempoPrevistoPercorrenza, mezzo);
                 em.persist(tratta);
                 t.commit();
                 System.out.println("tratta assegnata al mezzo: " + id);
+                t.begin();
+                Corsa corsa = new Corsa(tratta, mezzo, LocalTime.now(), LocalTime.now().plusHours(1));
+                em.persist(corsa);
+                t.commit();
             } else System.out.println("errore");
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
+
 
     }
 
